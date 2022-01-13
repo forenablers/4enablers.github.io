@@ -1,5 +1,4 @@
 ---
-layout: posts
 categories: Hackathon
 title: "Hackathon: Parking availability"
 date: "2018-08-14T20:00:00Z"

@@ -1,5 +1,4 @@
 ---
-layout: posts
 categories: Misc
 title: "Facebook Hackercup. 5 tips"
 date: "2018-08-11T10:45:00Z"

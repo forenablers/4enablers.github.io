@@ -1,5 +1,4 @@
 ---
-layout: posts
 categories: JavaScript
 title: "Weird Javascript: Buzzy statement"
 date: "2012-02-10T02:22:00Z"

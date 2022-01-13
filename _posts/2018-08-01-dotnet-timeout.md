@@ -1,5 +1,4 @@
 ---
-layout: posts
 categories: dotnet
 title: "Microservices: Handling timeouts"
 date: "2018-08-01T23:00:00Z"

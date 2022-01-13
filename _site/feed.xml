@@ -1,197 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/4enablers.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/4enablers.github.io/" rel="alternate" type="text/html" /><updated>2022-01-13T18:51:51+01:00</updated><id>http://localhost:4000/4enablers.github.io/feed.xml</id><title type="html">Blog for Enablers</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Machine Learning and Parking Availability</title><link href="http://localhost:4000/4enablers.github.io/machinelearning/2018/09/05/machine-learning.html" rel="alternate" type="text/html" title="Machine Learning and Parking Availability" /><published>2018-09-05T12:45:00+02:00</published><updated>2018-09-05T12:45:00+02:00</updated><id>http://localhost:4000/4enablers.github.io/machinelearning/2018/09/05/machine-learning</id><content type="html" xml:base="http://localhost:4000/4enablers.github.io/machinelearning/2018/09/05/machine-learning.html">&lt;p&gt;Do you have a lot of data that you were collecting many years and now you consider doing some magic by applying Machine Learning? What are you able to achieve with the data you have?&lt;/p&gt;
-
-&lt;p&gt;In this post I’ll summarize our experience of trying to apply Machine Learning during the &lt;a href=&quot;/hackathon-availability/&quot;&gt;hackathon&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;In the beginning we will take a look at the problem. After that there will be a small refresher/introduction into Machine Learning and its methods. Then we choose an appropriate method that supposed to solve the problem. Once we know the method, we will figure out what data do we need and what data are actually available. In the end as a bonus, we will consider slightly different approach and will reason about it’s pros &amp;amp; cons.&lt;/p&gt;
-
-&lt;h2 id=&quot;problem&quot;&gt;Problem&lt;/h2&gt;
-
-&lt;p&gt;During the hackathon we tackled a &lt;strong&gt;parking availability&lt;/strong&gt; problem that was stated as follows:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;As a customer I want to search for parking in a specific area and get insight if there are spaces available? Show our customers parking prediction per street/area using our transaction history.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;The first solution that popped up in our technology driven minds was Machine Learning.&lt;/p&gt;
-
-&lt;h2 id=&quot;machine-learning&quot;&gt;Machine Learning&lt;/h2&gt;
-&lt;p&gt;What do we know about Machine Learning?&lt;/p&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;Machine learning is like teenage sex: everyone talks about it, nobody really knows how to do it, everyone thinks everyone else is doing it, so everyone claims they are doing it..&lt;/p&gt;
-
-  &lt;p&gt;(c) Someone smart and funny&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;What we want essentially is that our program learns how to solve a problem &lt;strong&gt;itself&lt;/strong&gt; by discovering hidden patterns in the training data set.&lt;/p&gt;
-
-&lt;p&gt;There are following types of learning methods available to solve different types of problems:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Supervised learning for predictions and classifications&lt;/li&gt;
-  &lt;li&gt;Unsupervised learning for clustering and associations&lt;/li&gt;
-  &lt;li&gt;Reinforcement learning for learning from experiments&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;What these methods do is train &lt;em&gt;a model&lt;/em&gt; that can either predict, classify, associate etc. In other words &lt;strong&gt;the model is an outcome of a learning process&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;As we can see above, to be able to make predictions about parking availability we need to utilize supervised learning to train our model.&lt;/p&gt;
-
-&lt;h2 id=&quot;supervised-learning&quot;&gt;Supervised learning&lt;/h2&gt;
-&lt;p&gt;How does the supervised learning works? In supervise learning we perform following steps to train our model:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;initialize a model with random parameters&lt;/li&gt;
-  &lt;li&gt;ask model to make predictions based on an input data&lt;/li&gt;
-  &lt;li&gt;evaluate the prediction based on &lt;strong&gt;known output&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;adjusts model’s parameters to minimize the error&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;The key point is that &lt;strong&gt;we must know the prediction(output) for each input&lt;/strong&gt; in the training data set. This paired data of &lt;em&gt;inputs and results&lt;/em&gt; is named &lt;strong&gt;labeled&lt;/strong&gt; data.&lt;/p&gt;
-
-&lt;p&gt;The classical example of labeled data for supervised learning is a data set of labeled images with dogs and cats. We know who is pictured on each image: a cat or a dog.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/pn-hackathon-2018/casndogs.jpg&quot; alt=&quot;Cats &amp;amp; Dogs&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The knowledge of the output allows us to train the model in supervised manner.&lt;/p&gt;
-
-&lt;h2 id=&quot;parking-availability-training-data-set&quot;&gt;Parking Availability Training Data Set&lt;/h2&gt;
-
-&lt;p&gt;Now let’s try to answer the question - &lt;strong&gt;how our training data set should look like so that we could predict parking availability?&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;The output data&lt;/strong&gt; should be either &lt;em&gt;parking is available&lt;/em&gt; or &lt;em&gt;unavailable&lt;/em&gt;. It can have different forms of course - binary(yes, no), or probability of availability(87% is available), or something else.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;The input data&lt;/strong&gt; should have features that influence parking availability.&lt;/p&gt;
-
-&lt;p&gt;Desired data set could look like this:&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;input &lt;br /&gt; curLat, curLon, destLat, destLon, day, minute&lt;/th&gt;
-      &lt;th&gt;label (output) &lt;br /&gt; availability&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;52.3485772, 5.0082082, 52.356612, 4.895434, 244, 772&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;span style=&quot;color:#0a0&quot;&gt;true&lt;/span&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;52.3485241, 5.0082011, 52.356278, 4.995423, 345, 631&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;span style=&quot;color:#0a0&quot;&gt;true&lt;/span&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;52.3485789, 5.0082022, 52.353972, 4.995412, 134, 1083&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;span style=&quot;color:#f00&quot;&gt;false&lt;/span&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;52.3489271, 5.0082082, 52.356129, 4.993729, 245, 890&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;span style=&quot;color:#f00&quot;&gt;false&lt;/span&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;52.3485772, 5.0082090, 52.356605, 4.995392, 64, 402&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;span style=&quot;color:#0a0&quot;&gt;true&lt;/span&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Important part of the data set is the availability &lt;strong&gt;labels&lt;/strong&gt;. The labels reflect the availability situation whether the parking was available(&lt;span style=&quot;color:#0a0&quot;&gt;true&lt;/span&gt;) or unavailable(&lt;span style=&quot;color:#f00&quot;&gt;false&lt;/span&gt;) at the given time in the given location.&lt;/p&gt;
-
-&lt;p&gt;Do we have these labels in provided data set?&lt;/p&gt;
-
-&lt;h2 id=&quot;cashless-parking-providers-and-data&quot;&gt;Cashless Parking Providers and data&lt;/h2&gt;
-
-&lt;p&gt;What data do we have in reality? As the problem states - we need to give a prediction based on &lt;strong&gt;transaction history&lt;/strong&gt;. These transaction history comes from a cashless parking provider(CPP) and basically are payments for parking in a particular zone at particular time.&lt;/p&gt;
-
-&lt;p&gt;Clients of CPP use the provided services once they are parked and want to pay for the parking. Therefore CPP receives transactions only for successful parking - &lt;em&gt;client managed to park in a particular area, thus parking was available&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;What data we don’t have is the data about &lt;strong&gt;unsuccessful parkings&lt;/strong&gt; because we don’t know where the client wanted to park &lt;strong&gt;initially&lt;/strong&gt;. It is possible that the client wanted to park in one place but it was completely full so he ended up parking in another place far away from the initial destination point. In other words - client dealt with &lt;strong&gt;unavailable parking&lt;/strong&gt; but this data &lt;strong&gt;was not captured&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Disclosure: all the data is anonymized according to the &lt;a href=&quot;https://eugdpr.org/&quot;&gt;GDPR&lt;/a&gt;.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
-
-&lt;p&gt;The conclusion is that the &lt;strong&gt;transactions cannot be used as labeled training data set&lt;/strong&gt; to train a model to predict parking availability.&lt;/p&gt;
-
-&lt;p&gt;Main outcome was that the CPP should start collecting feedback from the users with regard to the parking experience. Simple questions can be asked after user parked:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Have you parked where you initially wanted?&lt;/li&gt;
-  &lt;li&gt;How long did it take to park?&lt;/li&gt;
-  &lt;li&gt;Do you see more available parking spots nearby?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;This feedback will allow building labeled training data set that will not depend on city specifics.&lt;/p&gt;
-
-&lt;h2 id=&quot;bonus&quot;&gt;Bonus&lt;/h2&gt;
-&lt;h3 id=&quot;availability--amount-of-free-spots&quot;&gt;Availability = Amount of Free Spots?&lt;/h3&gt;
-
-&lt;p&gt;Can we derive availability from the amount of free parking spots? Whenever we can say that there will be &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;X&lt;/code&gt; parking spots free, we can say that parking in the area is available.&lt;/p&gt;
-
-&lt;p&gt;In order to train our model to predict amount of free parking spots, our desired labeled training data set should look like:&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;input &lt;br /&gt; curLat, curLon, destLat, destLon, day, minute&lt;/th&gt;
-      &lt;th&gt;label (output) &lt;br /&gt; amount of free parking spots&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;52.3485772, 5.0082082, 52.356612, 4.895434, 244, 772&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;span style=&quot;color:#0a0&quot;&gt;23&lt;/span&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;52.3485241, 5.0082011, 52.356278, 4.995423, 345, 631&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;span style=&quot;color:#0a0&quot;&gt;68&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;52.3485789, 5.0082022, 52.353972, 4.995412, 134, 1083&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;span style=&quot;color:#f00&quot;&gt;0&lt;/span&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;52.3489271, 5.0082082, 52.356129, 4.993729, 245, 890&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;span style=&quot;color:#f00&quot;&gt;0&lt;/span&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;52.3485772, 5.0082090, 52.356605, 4.995392, 64, 402&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;span style=&quot;color:#0a0&quot;&gt;45&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;In order to label the data we should know amount of free parking spots. The math here is pretty simple:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;Estimate a \(Capacity\) of the parking area. As the capacity we can consider a historical maximum amount of simultaneous parking transactions at the area.&lt;/li&gt;
-  &lt;li&gt;Amount of \(Occupied\) spots is amount of simultanious transactions for a given time and location.&lt;/li&gt;
-  &lt;li&gt;
-\[Free = Capacity - Occupied\]
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;accuracy-of-free-spots-prediction&quot;&gt;Accuracy of Free spots prediction&lt;/h3&gt;
-
-&lt;p&gt;The accuracy of such model will depend on several factors and will vary per city.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Do we have all transactions in a City?&lt;/strong&gt; If we don’t we cannot estimate a capacity of a parking location and how many spots are occupied.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Does enforcement work good?&lt;/strong&gt; In worse case (when there is no enforcement)drivers won’t pay for parking. This will lead to situation where we see that there are 5 free parking spots, however they are occupied without paying.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Transactions reflect exact parking duration?&lt;/strong&gt; There are cases when driver buys 20 minutes to park but leaves after 10 minutes. In couple minutes this spot gets occupied by another car that also creates a transaction. That can influence our estimations of parking space capacity by making it bigger.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Are there special tariffs?&lt;/strong&gt; In a case when residents don’t pay for the parking they will occupy a spot but it will not create a transaction. In residential area we will see many free spots that are occupied by residents in reality.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-mermaid&quot;&gt;graph TD
-    start --&amp;gt; K{Major provider?}
-    D{Enforced?} --&amp;gt; |Yes| F{Buy time?}
-    D --&amp;gt; |No| B
-    K --&amp;gt; |No| B[Incomplete]
-    K --&amp;gt; |Yes| D
-    F --&amp;gt; |Yes| G[Inaccurate]
-    F --&amp;gt; |No| H[Complete]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;It worth mentioning that attempt to predict amount of free parking spots in a parking location in Amsterdam (where we didn’t have majority of all the transactions) resulted in weird numbers that exceeded amount of historical maximum of simultaneous parking actions.&lt;/p&gt;</content><author><name>Sergey Zavoloka</name></author><category term="MachineLearning" /><summary type="html">Do you have a lot of data that you were collecting many years and now you consider doing some magic by applying Machine Learning? What are you able to achieve with the data you have?</summary></entry><entry><title type="html">Machine Learning and Parking Availability</title><link href="http://localhost:4000/4enablers.github.io/machinelearning/2018/09/05/machine-learning.html" rel="alternate" type="text/html" title="Machine Learning and Parking Availability" /><published>2018-09-05T12:45:00+02:00</published><updated>2018-09-05T12:45:00+02:00</updated><id>http://localhost:4000/4enablers.github.io/machinelearning/2018/09/05/machine-learning</id><content type="html" xml:base="http://localhost:4000/4enablers.github.io/machinelearning/2018/09/05/machine-learning.html">&lt;p&gt;Do you have a lot of data that you were collecting many years and now you consider doing some magic by applying Machine Learning? What are you able to achieve with the data you have?&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/4enablers.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/4enablers.github.io/" rel="alternate" type="text/html" /><updated>2022-01-13T19:28:42+01:00</updated><id>http://localhost:4000/4enablers.github.io/feed.xml</id><title type="html">Blog for Enablers</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Machine Learning and Parking Availability</title><link href="http://localhost:4000/4enablers.github.io/machinelearning/2018/09/05/machine-learning.html" rel="alternate" type="text/html" title="Machine Learning and Parking Availability" /><published>2018-09-05T12:45:00+02:00</published><updated>2018-09-05T12:45:00+02:00</updated><id>http://localhost:4000/4enablers.github.io/machinelearning/2018/09/05/machine-learning</id><content type="html" xml:base="http://localhost:4000/4enablers.github.io/machinelearning/2018/09/05/machine-learning.html">&lt;p&gt;Do you have a lot of data that you were collecting many years and now you consider doing some magic by applying Machine Learning? What are you able to achieve with the data you have?&lt;/p&gt;
 
 &lt;p&gt;In this post I’ll summarize our experience of trying to apply Machine Learning during the &lt;a href=&quot;/hackathon-availability/&quot;&gt;hackathon&lt;/a&gt;.&lt;/p&gt;
 
@@ -504,307 +311,7 @@ At the minimum you are coupled to this exact technology and limited due to all t
 
 &lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
 
-&lt;p&gt;None of the existing solutions take users personal situation and preferences into account. Moreover, none of them gives the answer whether or not the user can park. All the user gets is the number or load distribution which is not enough to decide if the user is able to park or not. We did a mini-survey to understand the process of how people chose where to park. Most of us use the Google Maps to check street view and get an idea of how busy is the area. Some people go further and check the traffic and adjacent streets. Finally, people evaluate the alternate transport, e.g. getting by car to the nearest P+R and then use the public transportation. And this is what we want to change and simplify for the user.&lt;/p&gt;</content><author><name>Borys Generalov</name></author><category term="Hackathon" /><summary type="html">It’s been a week since our regular hackathon at Parkmobile and it’s a good time to recap and share key takeaways. The aim of the hackathon was to find innovative solutions that improve the life of drivers dealing with the parking challenges. I teamed up with a few like-minded people and we focused on Parking Availability challenge. Here I am going to deep-dive into the availability problem and share our findings.</summary></entry><entry><title type="html">Hackathon: Parking availability</title><link href="http://localhost:4000/4enablers.github.io/hackathon/2018/08/14/hackathon.html" rel="alternate" type="text/html" title="Hackathon: Parking availability" /><published>2018-08-14T22:00:00+02:00</published><updated>2018-08-14T22:00:00+02:00</updated><id>http://localhost:4000/4enablers.github.io/hackathon/2018/08/14/hackathon</id><content type="html" xml:base="http://localhost:4000/4enablers.github.io/hackathon/2018/08/14/hackathon.html">&lt;p&gt;It’s been a week since our regular hackathon at Parkmobile and it’s a good time to recap and share key takeaways. The aim of the hackathon was to find innovative solutions that improve the life of drivers dealing with the parking challenges. I teamed up with a few like-minded people and we focused on Parking Availability challenge. Here I am going to deep-dive into the availability problem and share our findings.&lt;/p&gt;
-
-&lt;h3 id=&quot;the-challenge&quot;&gt;The challenge&lt;/h3&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;As a customer I want to search for parking in a specific area and get insight if there are spaces available? So show our customers parking prediction per street/area using our transaction history.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;naive-approach&quot;&gt;Naive approach&lt;/h3&gt;
-
-&lt;p&gt;The first reaction was, not surprisingly … Machine Learning. And here we go: people started to argue whether it should be TensorFlow or AWS SageMaker, should we use the data from Amsterdam or from Paris, how accurate must be the prediction and so on and so forth. People that do not have hands-on experience with the data science or machine learning, those suddenly turned into experts and started to show off their intelligence :) Tell you what, the Machine Learning is as useless here as blockchain. Never start from the technology!&lt;/p&gt;
-
-&lt;details&gt;&lt;summary&gt;Explanation&lt;/summary&gt;
-&lt;p&gt;
-At the minimum you are coupled to this exact technology and limited due to all the constrains that come with the chosen technology. Moreover, there is no unique selling point when you rely on technology. Your competitors will do the same, i.e. adopt the same technology and you all end up with the same results. Take cryptocurrency for example, they all based on blockchain and there is more than 1600 of them, whereas only 5-10 of them are really worth to invest.
-&lt;/p&gt;
-&lt;/details&gt;
-
-&lt;h3 id=&quot;right-approach&quot;&gt;Right approach&lt;/h3&gt;
-
-&lt;p&gt;We returned to the drawing board. This time we focus on the most important thing: &lt;strong&gt;what&lt;/strong&gt; we are trying to solve, rather than &lt;strong&gt;how&lt;/strong&gt;. And immediately an excellent question popped up: are we reinventing the wheel, i.e. is there an existing solution on a market? The research resulted in the following three  approaches for addressing the parking availability:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Heatmap with colors indicating the occupancy on the street level, e.g. Parkmobile US:&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/hackathon-availability/parkmobile.png&quot; alt=&quot;Parkmobile US&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Indication of how busy is the area, e.g. Google Maps:&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/hackathon-availability/googlemaps.png&quot; alt=&quot;Google maps&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Exact number showing the available parking spots, e.g. ParkMe:&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/hackathon-availability/parkme.png&quot; alt=&quot;Parkme&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;We quickly figured out that these existing approaches are not solving the &lt;strong&gt;availability&lt;/strong&gt; problem as we expected. They rather give you an insight on what’s going on in realtime and show you the occupancy of certain street. We do not want to know the exact number nor the color of the street. Finally, we worked out the &lt;strong&gt;what&lt;/strong&gt; :&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Whether or not the users can park in target area. If not, where can they park?&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;user-stories&quot;&gt;User stories&lt;/h3&gt;
-
-&lt;p&gt;The first step is to understand your target users and customers. We used Personas and tried to imagine the most important types of user.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;Clearly, parking is different when you drive luxurious 5 meter long BMW 5 Series vs Smart Fortwo. The chances to park your Smart are much higher, you will fit into impossibly small gaps.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;It does matter whether you are experienced driver or a rookie. A rookie will avoid the parallel parking in narrow area. An experienced driver does not mind parallel park by touch (aka Paris style)&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Contrary what if you are a rookie, but driving BMW i3 that has brilliant self-parking feature (Intelligent Parking Assist System)? You do not care about parking complexity anymore&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;How about parents with the baby? Probably you are not very excited to park and walk 15 minutes with the stroller&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;However, the student does not mind to park in cheaper place and the walk 15 minutes to the target destination&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Finally, are you by any chance driving an electric vehicle that needs to be charged? Or are you using the car sharing services, so you are limited in where you can leave the car?&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;edge-cases&quot;&gt;Edge cases&lt;/h3&gt;
-
-&lt;p&gt;There are many things that will affect the accuracy of the results, here are the most annoying:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;The parking lot seems to be vacant, but it is too narrow to park there. E.g. someone parked the car inappropriately:
-&lt;img src=&quot;/assets/hackathon-availability/idiot.gif&quot; alt=&quot;Parking idiot&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;The parking is on grass or field (usually concerts, P+R), so if there is a heavy rain you will need to walk through mud:
-&lt;img src=&quot;/assets/hackathon-availability/parkingrain.jpg&quot; alt=&quot;Parking rain&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;How can you detect the following illegal parking? You can not trust the real-time occupancy, which reports 4 vacant parking spots
-&lt;img src=&quot;/assets/hackathon-availability/illegalparking.jpg&quot; alt=&quot;Illegal parking&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;deep-analysis&quot;&gt;Deep Analysis&lt;/h3&gt;
-
-&lt;p&gt;We know what we want to solve, we identified the target audience and highlighted the edge cases. Having analyzed all the data we tried to imagine the user interface. We had to take into account a few more very important things that affected technical solution:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;There is a very busy street that is always occupied at 100%, but it is very dynamic and cars constanly come and leave. Parking time is 5-15 minutes. Hence, the parking is relatively easy and available. This brings us to important metric &lt;strong&gt;parking duration&lt;/strong&gt; and &lt;strong&gt;waiting time&lt;/strong&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Opposite situation. At the given moment the street is half busy. However, parking duration is long, e.g. whole working day. Hence, if you came there at 08:50 AM and there were 10 parking spots available, at 09:00AM all of them will be taken and they will be free starting from 05:00PM. The parking is very difficult there and depends on &lt;strong&gt;time of the day&lt;/strong&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Consider scenario when there are a few parking spots available and you do not know if you should take the first one or drive further hoping that there is better spot closer to your target. It will be very frustrating if remaining parking spots are at the end of the street, whereas you skipped the one at the beginning of the street, right? It would be great if our tool is able to figure out this and &lt;strong&gt;recommend you the best parking spot&lt;/strong&gt;.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;user-data&quot;&gt;User data&lt;/h3&gt;
-
-&lt;p&gt;Very soon we understood that proper solution must take the user’s preferences into account. We need to know the original intention of the user in order to say ‘Hey, go and park here, this is the best parking spot that suits you’. The intention is a key here. The user wanted to park somewhere else, but could not. We think it is important information. If people can not park there, we should adjust the recommendation and do not send others there.&lt;/p&gt;
-
-&lt;p&gt;Now, if we start collecting the users’ feedback, we will greatly improve the accuracy and solve the issues caused by the edge cases. Is there a free spot next to you? This would confirm that our prediction is correct, otherwise we adjust it. Was it easy to find parking lot here? If we predicted “easy to moderate” and the user says “hard” - we need to adjust our model. Was it convenient to park here or you would rather park somewhere else? Having the preferences and feedback we can recommend ‘best matches’ and the user does not need to waste time checking how many parking spots are available and then checking Google Maps to see the occupancy of an area and/or how to get to the desired location from parking place.&lt;/p&gt;
-
-&lt;h3 id=&quot;solution&quot;&gt;Solution&lt;/h3&gt;
-
-&lt;p&gt;The solution consists of the two parts. First part is for the users who is going to park and want to see the situation before they drive there. The second part is targeting the users who can provide feedback upon arriving at parking place or leaving it.  We will discuss the solution in depth in the next blog post. Below is the screenshot from the working app at the end of hackathon:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/hackathon-availability/solution.png&quot; alt=&quot;Parking availability&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-
 &lt;p&gt;None of the existing solutions take users personal situation and preferences into account. Moreover, none of them gives the answer whether or not the user can park. All the user gets is the number or load distribution which is not enough to decide if the user is able to park or not. We did a mini-survey to understand the process of how people chose where to park. Most of us use the Google Maps to check street view and get an idea of how busy is the area. Some people go further and check the traffic and adjacent streets. Finally, people evaluate the alternate transport, e.g. getting by car to the nearest P+R and then use the public transportation. And this is what we want to change and simplify for the user.&lt;/p&gt;</content><author><name>Borys Generalov</name></author><category term="Hackathon" /><summary type="html">It’s been a week since our regular hackathon at Parkmobile and it’s a good time to recap and share key takeaways. The aim of the hackathon was to find innovative solutions that improve the life of drivers dealing with the parking challenges. I teamed up with a few like-minded people and we focused on Parking Availability challenge. Here I am going to deep-dive into the availability problem and share our findings.</summary></entry><entry><title type="html">Facebook Hackercup. 5 tips</title><link href="http://localhost:4000/4enablers.github.io/misc/2018/08/11/facebook-hackercup.html" rel="alternate" type="text/html" title="Facebook Hackercup. 5 tips" /><published>2018-08-11T12:45:00+02:00</published><updated>2018-08-11T12:45:00+02:00</updated><id>http://localhost:4000/4enablers.github.io/misc/2018/08/11/facebook-hackercup</id><content type="html" xml:base="http://localhost:4000/4enablers.github.io/misc/2018/08/11/facebook-hackercup.html">&lt;p&gt;It is always interesting to measure your skills in problem solving. One of the ways to check how good you are, is to participate in Facebook Hackercup. If you consider participating next year - I’d like to share my top 5 learnings from this year.&lt;/p&gt;
-
-&lt;h3 id=&quot;1-train-yourself-to-understand-challenge-quickly&quot;&gt;1. Train yourself to understand challenge quickly&lt;/h3&gt;
-&lt;p&gt;Challenges’ descriptions are huge. You have to be very attentive to get it right. After the problem is understood, it needs to be translated into a technical problem. You can train this skill using the &lt;a href=&quot;https://www.facebook.com/hackercup/past_rounds/1825579961046099/&quot;&gt;challanges from previous years&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;2-solve-without-coding-first&quot;&gt;2. Solve without coding first&lt;/h3&gt;
-&lt;p&gt;Every challenge has a sample input and output. Use this information. Although it is tempting to start coding right away, try to solve it step by step on paper or on a whiteboard. Make sure that you have the same output.&lt;/p&gt;
-
-&lt;p&gt;This approach will help you to see patterns or even to find a simple solution. For example, here is one of the challenges:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Consider an N-degree polynomial, expressed as follows:&lt;/p&gt;
-
-\[P_N * x^N + P_N-1 * x^N-1 + ... + P_1 * x^1 + P_0 * x^0\]
-
-  &lt;p&gt;You’d like to find all of the polynomial’s $x$ ( 
-all distinct real values of $x$ for which the expression evaluates to $0$).&lt;/p&gt;
-
-  &lt;p&gt;The order of operations has been reversed: Addition ($+$) now has 
-the highest precedence, followed by multiplication ($*$), followed by exponentiation (^).&lt;/p&gt;
-
-  &lt;p&gt;Constraints: $P_N ≠ 0$&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;After reading this you might think that this problem is somehow similar to &lt;a href=&quot;https://en.wikipedia.org/wiki/3SUM&quot;&gt;3-sum problem&lt;/a&gt;. However if you put it down on paper or whiteboard it will be obvious that the solution is quite simple:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;The polynomial can be evaluated to $0$ when $x = 0$ and polynomial’s degree is odd.&lt;/li&gt;
-  &lt;li&gt;Otherwise it cannot be evaluated to $0$.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;The code in the end will be simple:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;calculatePolynomialInterceptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;degree&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;degree&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# the only possible solution
-&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# no such x
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;details&gt;&lt;summary&gt;Explanation&lt;/summary&gt;
-&lt;p&gt;
-
-It might take some time to realise how a polynomial would look like after applying new operations order. Let&apos;s start with $N=3$ and write the polynomial down:
-
-
-$P_3 * x$ ^ $3 + P_2 * x$ ^ $2 + P_1 * x$ ^ $1 + P_0 * x$ ^ 0
-
-According to the order of operations it should look as following:
-
-$(P_3 * x)$ ^ $((3 + P_2) * x)$ ^ $((2 + P_1) * x)$ ^ $((1 + P_0) * x)$ ^ $0$
-
-From that we can see that we have $(P_3 * x)$ as a base and the rest as an exponent. We will refer to the exponent as $a$:
-
-$a = ((3 + P_2) * x)$ ^ $((2 + P_1) * x)$ ^ $((1 + P_0) * x)$ ^ $0$
-
-and will get the expression:
-
-$$P_3 * x ^ a = 0$$ 
-
-Since $P_3 ≠ 0$ according to the problem description, the polynomial can be evaluated to $0$ only and only when $x = 0$ and $a ≠ 0$. 
-
-We have found the $x$ and the only thing we need to do is to make sure that $a ≠ 0$, otherwise $P_3 * 0^0 = P_3$. 
-
-Let&apos;s take a look at $a$. Since $x = 0$, we will get:
-
-$a = ((3 + P_2) * 0)$ ^ $((2 + P_1) * 0)$ ^ $((1 + P_0) * 0)$ ^ $0$
-
-$a = 0$ ^ $0$ ^ $0$ ^ $0$
-
-$a = 1$
-
-The answer is that the *3rd-degree* polynomial does evaluate to $0$ only and only when $x = 0$. However if it would be *2nd-degree* polynomial, it does not evaluate to $0$ for any real value $x$:
-
-$a = 0$ ^ $0$ ^ $0$
-
-$a = 0$
-
-$P_2 * x^0 = P_2 * 1 = P_2 (≠ 0)$
-
-It turns out that the final solution of this problem is quite easy - we just need to check whether the polynomial degree is odd, and if it is so then it can be evaluated to $0$ when $x = 0$.
-
-&lt;/p&gt;
-&lt;/details&gt;
-
-&lt;h3 id=&quot;3-use-brute-force-and-improve&quot;&gt;3. Use brute force and improve&lt;/h3&gt;
-&lt;p&gt;Use a naive approach and solve a problem as quick as possible. Once you have a solution ask yourself following questions and try to improve these aspects if an answer is positive:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Are there bottlenecks?&lt;/li&gt;
-  &lt;li&gt;Are there duplicated work?&lt;/li&gt;
-  &lt;li&gt;Are there useless work?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;4-solve-and-reverse-engineer-your-thought-process&quot;&gt;4. Solve and reverse engineer your thought process&lt;/h3&gt;
-&lt;p&gt;Forget about your CS skills and try to solve a problem as a human or as a small kid. Got a solution? Reverse engineer your thought process and convert it into an algorithm.&lt;/p&gt;
-
-&lt;p&gt;For example you are challenged:&lt;/p&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;Given &lt;a href=&quot;https://en.wikipedia.org/wiki/Tree_traversal#Pre-order_(NLR)&quot;&gt;Pre-order&lt;/a&gt; and &lt;a href=&quot;https://en.wikipedia.org/wiki/Tree_traversal#In-order_(LNR)&quot;&gt;In-order&lt;/a&gt; traversals of a tree, reconstruct the tree.&lt;/p&gt;
-
-  &lt;p&gt;In-order: A, B, C, D, E, F, I, G, H&lt;/p&gt;
-
-  &lt;p&gt;Pre-order: F, B, A, D, C, E, G, I, H&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;What you can try is to reconstruct the tree without thinking about algorithms, loops, recursions, stacks whatsoever.&lt;/p&gt;
-
-&lt;p&gt;What we know is that in pre-order the left element is the root. Let’s draw the root:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-mermaid&quot;&gt;graph TD;
-    F((F))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Next root element is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;B&lt;/code&gt; but where to put it - we don’t know yet. Looking at the in-order traversal result, we can notice that &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;F&lt;/code&gt; splits it into two: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A, B, C, D, E&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;I, G, H&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;These are nodes that are on the left and on the right from our root &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;F&lt;/code&gt;. Which nodes are children of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;F&lt;/code&gt;? The ones that come first in the pre-order - &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;B&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;G&lt;/code&gt;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-mermaid&quot;&gt;graph TD;
-    F((F))--&amp;gt;B((B));
-    F--&amp;gt;G((G));
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Now &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;B&lt;/code&gt; splits the in-order &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A, B, C, D, E&lt;/code&gt; into the only left child &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt; and descendant ondes on the right &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;C, D, E&lt;/code&gt;. Which node is the right child of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;B&lt;/code&gt;? The answer is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;D&lt;/code&gt;, since it comes first in the pre-order.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-mermaid&quot;&gt;graph TD;
-    F((F))--&amp;gt;B((B));
-    F--&amp;gt;G((G));
-    B--&amp;gt;A((A));
-    B--&amp;gt;D((D));
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;After repeating this process you will reconstruct the whole tree:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-mermaid&quot;&gt;graph TD;
-    F((F))--&amp;gt;B((B));
-    F--&amp;gt;G((G));
-    B--&amp;gt;A((A));
-    B--&amp;gt;D((D));
-    D--&amp;gt;C((C));
-    D--&amp;gt;E((E));
-    G--&amp;gt;I((I));
-    G--&amp;gt;H((H));
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;What you can do now is to wrap this process into an algorithm:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;reconstructTree&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;in_order&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pre_order&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;# if pre_order is empty - return None
-&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pre_order&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;# extract first from pre_order as root
-&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;root&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pre_order&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;pre_order&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pre_order&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:]&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;# split in_order based on the root into:
-&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;in_order_left&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;in_order&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;in_order&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;root&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;in_order_right&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;in_order&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;in_order&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;root&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:]&lt;/span&gt;
-    
-    &lt;span class=&quot;c1&quot;&gt;# split pre_order based on in_order_right &amp;amp;in_order_left into:
-&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;pre_order_left&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pre_order&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;in_order_left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;pre_order_right&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pre_order&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;in_order_right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):]&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;leftNode&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;reconstructTree&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;in_order_left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pre_order_left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;rightNode&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;reconstructTree&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;in_order_right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pre_order_right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;root&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addLeft&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;leftNode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;root&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addRight&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rightNode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;root&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;5-be-careful-about-details&quot;&gt;5. Be careful about details&lt;/h3&gt;
-&lt;p&gt;Once the code is written, check it twice. Pay attention to boundary cases.&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;0-indexed vs 1-indexed?&lt;/li&gt;
-  &lt;li&gt;Double check the code where you add or substruct 1(if you do). Make sure that these boundaries are correct.&lt;/li&gt;
-  &lt;li&gt;Do you compare values anywhere? Check them - should a value be &lt;em&gt;greater&lt;/em&gt; or &lt;em&gt;greater or equal&lt;/em&gt;?&lt;/li&gt;
-  &lt;li&gt;Do you handle incorrect input?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;These were my learnings from this year Hackercup. If you ask me how far did I go, I tell you that I almost did it to round 3(not bad for the first try). Solve challenges and have fun! Good luck!&lt;/p&gt;</content><author><name>Sergey Zavoloka</name></author><category term="Misc" /><summary type="html">It is always interesting to measure your skills in problem solving. One of the ways to check how good you are, is to participate in Facebook Hackercup. If you consider participating next year - I’d like to share my top 5 learnings from this year.</summary></entry><entry><title type="html">Facebook Hackercup. 5 tips</title><link href="http://localhost:4000/4enablers.github.io/misc/2018/08/11/facebook-hackercup.html" rel="alternate" type="text/html" title="Facebook Hackercup. 5 tips" /><published>2018-08-11T12:45:00+02:00</published><updated>2018-08-11T12:45:00+02:00</updated><id>http://localhost:4000/4enablers.github.io/misc/2018/08/11/facebook-hackercup</id><content type="html" xml:base="http://localhost:4000/4enablers.github.io/misc/2018/08/11/facebook-hackercup.html">&lt;p&gt;It is always interesting to measure your skills in problem solving. One of the ways to check how good you are, is to participate in Facebook Hackercup. If you consider participating next year - I’d like to share my top 5 learnings from this year.&lt;/p&gt;
 
 &lt;h3 id=&quot;1-train-yourself-to-understand-challenge-quickly&quot;&gt;1. Train yourself to understand challenge quickly&lt;/h3&gt;
 &lt;p&gt;Challenges’ descriptions are huge. You have to be very attentive to get it right. After the problem is understood, it needs to be translated into a technical problem. You can train this skill using the &lt;a href=&quot;https://www.facebook.com/hackercup/past_rounds/1825579961046099/&quot;&gt;challanges from previous years&lt;/a&gt;.&lt;/p&gt;
@@ -1043,65 +550,6 @@ It turns out that the final solution of this problem is quite easy - we just nee
 
 &lt;p&gt;Now, whenever the timeout is exceeded, the request is canceled, propagating the cancellation from API Gateway to the Parking service, so that the service cancels the activity accordingly. This reduces the number of errors, which in turn simplifies troubleshooting and provides consistent results.&lt;/p&gt;
 
-&lt;p&gt;To recap: we’ve created a linked token source with custom timeout and propagated its cancellation token all the way to the downstream service and database layer.&lt;/p&gt;</content><author><name>Borys Generalov</name></author><category term="dotnet" /><summary type="html">The timeout pattern is perhaps the most basic way to reveal performance issues and satisfy the SLA. Even though the request did not succeed, the client gets the response within a defined SLA time span and the request can be retried. It sounds easy to implement as well. Simply set the timeout in the service client, i.e. RestClient, HttpWebRequest, or HttpClient. That is where it gets a bit tricky.</summary></entry><entry><title type="html">Microservices: Handling timeouts</title><link href="http://localhost:4000/4enablers.github.io/dotnet/2018/08/02/dotnet-timeout.html" rel="alternate" type="text/html" title="Microservices: Handling timeouts" /><published>2018-08-02T01:00:00+02:00</published><updated>2018-08-02T01:00:00+02:00</updated><id>http://localhost:4000/4enablers.github.io/dotnet/2018/08/02/dotnet-timeout</id><content type="html" xml:base="http://localhost:4000/4enablers.github.io/dotnet/2018/08/02/dotnet-timeout.html">&lt;p&gt;The timeout pattern is perhaps the most basic way to reveal performance issues and satisfy the SLA. Even though the request did not succeed, the client gets the response within a defined SLA time span and the request can be retried. It sounds easy to implement as well. Simply set the timeout in the service client, i.e. RestClient, HttpWebRequest, or HttpClient. That is where it gets a bit tricky.&lt;/p&gt;
-
-&lt;p&gt;Here is the excerpt from Kibana logs of the real-world production microservice. An attempt to create parking action has timed out and the caller received an error response with a 500 HTTP status code. Then the caller retried and received the error again, this time the response with 409 HTTP status code, saying that the item already exists.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/microservice-timeout/kibana.png&quot; alt=&quot;Kibana logs&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The following diagram illustrates the high-level process:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/microservice-timeout/uml.overview.png&quot; alt=&quot;UML overview&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;And this is a piece of code in API Gateway causing the problem:&lt;/p&gt;
-
-&lt;div class=&quot;language-csharp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;httpClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Timeout&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TimeSpan&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;FromMilliseconds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;timeout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;httpClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;SendAsync&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Even though the request has timed out, the parking action is still being persisted. Look what happened. The API Gateway aborted the request to the Parking service once the timeout was exceeded, but it did not cancel it. At that moment the Parking service was waiting for the database operation to complete. You are totally right if you thought of what is known as Compensating Transaction pattern. And to make it right, we have to inform the Parking service that the operation was canceled and we should stop processing and roll back all the actions performed (if any). And here the CancellationToken comes into play.&lt;/p&gt;
-
-&lt;p&gt;This is what you would change at the API Gateway:&lt;/p&gt;
-
-&lt;div class=&quot;language-csharp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tokenSource&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CancellationTokenSource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;CreateLinkedTokenSource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cancellationToken&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;tokenSource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;CancelAfter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;timeout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;httpClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;SendAsync&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tokenSource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Token&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;And the changes on the Parking service. First, we modify the controller to accept the cancellation token:&lt;/p&gt;
-
-&lt;div class=&quot;language-csharp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IHttpActionResult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;StartParking&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StartParkingRequest&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CancellationToken&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cancellationToken&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;cancellationToken&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;ThrowIfCancellationRequested&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parking&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parkingRequestConverter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;ToParkingEntity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parkingId&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parkingRepository&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;Insert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parking&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cancellationToken&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Finally, the repository is adjusted as follows:&lt;/p&gt;
-
-&lt;div class=&quot;language-csharp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Insert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IModel&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;param&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CancellationToken&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cancellationToken&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;T&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;CreateSqlConnection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;transaction&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;BeginTransaction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;c1&quot;&gt;//NOTE: we can not use DapperExtensions as it does not support a cancellation&lt;/span&gt;
-            &lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sql&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_sqlGenerator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;GetInsertCommandText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;command&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;CommandDefinition&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;param&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;transaction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cancellationToken&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ExecuteScalarAsync&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cancellationToken&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IsCancellationRequested&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;transaction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;Commit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Now, whenever the timeout is exceeded, the request is canceled, propagating the cancellation from API Gateway to the Parking service, so that the service cancels the activity accordingly. This reduces the number of errors, which in turn simplifies troubleshooting and provides consistent results.&lt;/p&gt;
-
 &lt;p&gt;To recap: we’ve created a linked token source with custom timeout and propagated its cancellation token all the way to the downstream service and database layer.&lt;/p&gt;</content><author><name>Borys Generalov</name></author><category term="dotnet" /><summary type="html">The timeout pattern is perhaps the most basic way to reveal performance issues and satisfy the SLA. Even though the request did not succeed, the client gets the response within a defined SLA time span and the request can be retried. It sounds easy to implement as well. Simply set the timeout in the service client, i.e. RestClient, HttpWebRequest, or HttpClient. That is where it gets a bit tricky.</summary></entry><entry><title type="html">Hackatrain 2018</title><link href="http://localhost:4000/4enablers.github.io/hackathon/2018/06/20/hackatrain.html" rel="alternate" type="text/html" title="Hackatrain 2018" /><published>2018-06-20T23:00:00+02:00</published><updated>2018-06-20T23:00:00+02:00</updated><id>http://localhost:4000/4enablers.github.io/hackathon/2018/06/20/hackatrain</id><content type="html" xml:base="http://localhost:4000/4enablers.github.io/hackathon/2018/06/20/hackatrain.html">&lt;p&gt;How about having a hackathon on a train? 6 hours on a train, without internet, with a speed over 180 km/h. Sounds crazy but rather cool, isn’t it? Consider a high-speed train heading to Berlin with 100+ participants spread over two train wagons. Here at &lt;a href=&quot;https://parkmobile.nl&quot;&gt;Parkmobile&lt;/a&gt;, we like cool things and the spirit of innovation, needless to say, I’m in!&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/hackatrain2018/train.jpg&quot; alt=&quot;Hackatrain 2018&quot; /&gt;&lt;/p&gt;
@@ -1264,166 +712,117 @@ It turns out that the final solution of this problem is quite easy - we just nee
 &lt;img src=&quot;/assets/hackatrain2018/home.jpg&quot; alt=&quot;Back home&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Tired but happy!
-&lt;img src=&quot;/assets/hackatrain2018/back.jpg&quot; alt=&quot;Back home&quot; /&gt;&lt;/p&gt;</content><author><name>Borys Generalov</name></author><category term="Hackathon" /><summary type="html">How about having a hackathon on a train? 6 hours on a train, without internet, with a speed over 180 km/h. Sounds crazy but rather cool, isn’t it? Consider a high-speed train heading to Berlin with 100+ participants spread over two train wagons. Here at Parkmobile, we like cool things and the spirit of innovation, needless to say, I’m in!</summary></entry><entry><title type="html">Hackatrain 2018</title><link href="http://localhost:4000/4enablers.github.io/hackathon/2018/06/20/hackatrain.html" rel="alternate" type="text/html" title="Hackatrain 2018" /><published>2018-06-20T23:00:00+02:00</published><updated>2018-06-20T23:00:00+02:00</updated><id>http://localhost:4000/4enablers.github.io/hackathon/2018/06/20/hackatrain</id><content type="html" xml:base="http://localhost:4000/4enablers.github.io/hackathon/2018/06/20/hackatrain.html">&lt;p&gt;How about having a hackathon on a train? 6 hours on a train, without internet, with a speed over 180 km/h. Sounds crazy but rather cool, isn’t it? Consider a high-speed train heading to Berlin with 100+ participants spread over two train wagons. Here at &lt;a href=&quot;https://parkmobile.nl&quot;&gt;Parkmobile&lt;/a&gt;, we like cool things and the spirit of innovation, needless to say, I’m in!&lt;/p&gt;
+&lt;img src=&quot;/assets/hackatrain2018/back.jpg&quot; alt=&quot;Back home&quot; /&gt;&lt;/p&gt;</content><author><name>Borys Generalov</name></author><category term="Hackathon" /><summary type="html">How about having a hackathon on a train? 6 hours on a train, without internet, with a speed over 180 km/h. Sounds crazy but rather cool, isn’t it? Consider a high-speed train heading to Berlin with 100+ participants spread over two train wagons. Here at Parkmobile, we like cool things and the spirit of innovation, needless to say, I’m in!</summary></entry><entry><title type="html">6 points on taking maximum from BETA testing</title><link href="http://localhost:4000/4enablers.github.io/misc/2012/12/08/beta-testing.html" rel="alternate" type="text/html" title="6 points on taking maximum from BETA testing" /><published>2012-12-08T14:22:00+01:00</published><updated>2012-12-08T14:22:00+01:00</updated><id>http://localhost:4000/4enablers.github.io/misc/2012/12/08/beta-testing</id><content type="html" xml:base="http://localhost:4000/4enablers.github.io/misc/2012/12/08/beta-testing.html">&lt;p&gt;You have developed a perfect app (or service). Before releasing and starting a marketing campaign you want to gether an initial feedback from potential users and make final fixes and adjustments. &lt;strong&gt;How to make it efficiently?&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/hackatrain2018/train.jpg&quot; alt=&quot;Hackatrain 2018&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Here I would like to share my experience with BETA testing process. During the process I managed to get lots of information regarding the usability of UI, bugs, attractiveness, willingness to buy the app, possible enhancements, suggestions about new functionality and other useful info. Below you’ll find 6 key points that I’ve learned.&lt;/p&gt;
 
-&lt;h2 id=&quot;diving-deeper&quot;&gt;Diving deeper&lt;/h2&gt;
+&lt;h2 id=&quot;1-you-need-as-many-beta-testers-as-possible&quot;&gt;1 You need as many BETA testers as possible.&lt;/h2&gt;
+&lt;p&gt;Think a dozen is enough? Be realistic, you can not judge on opinion of a small set of people. Therefore in order to get a clear view of strong and weak points of your app you need to get as many BETA testers as possible.&lt;/p&gt;
 
-&lt;p&gt;You probably think that a hackathon looks like this:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/hackatrain2018/beer.jpg&quot; alt=&quot;Drinking beer&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Yeah right, I wish. The beers will come later. First, get your hands dirty:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/hackatrain2018/begin.jpg&quot; alt=&quot;Working hard&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;There were 14 teams with 6 participants in each team. A team contains a few software developers (usually 2-3), scientists and 1-2 students (completely non-IT folks). For example, there were two students in Theatre and Performance Studies in my team. There are also people outside of the teams: coaches, mentors and support staff. Time is very limited and you start coding only in the evening of Day 1 (certainly after dinner and a few beers) while pitches start at 2:00 PM on the Day 2. The winning team gets 5, 000 euro gross.&lt;/p&gt;
-
-&lt;p&gt;Parkmobile mates
-&lt;img src=&quot;/assets/hackatrain2018/Parkmobile.jpg&quot; alt=&quot;Hackatrain 2018&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;lessons-learned&quot;&gt;Lessons learned&lt;/h2&gt;
-
-&lt;p&gt;&lt;em&gt;I do hate scrolling down all the way to the bottom of the page to see what really matters. Hence I break the rules and put important stuff right here.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;There are a few key points I took from this event. There are actually a lot more of them, but here I list crucial only:&lt;/p&gt;
-
+&lt;p&gt;Another reason is that you are interested in getting a feedback from your BETA testers, but the truth is that according to my experience:&lt;/p&gt;
 &lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;https://parkmobile.nl&quot;&gt;Parkmobile&lt;/a&gt; is a great company! Ahaha, now seriously. Having talked to the other participants (huh, competitors!) I clearly see that &lt;a href=&quot;https://parkmobile.nl&quot;&gt;Parkmobile&lt;/a&gt; invests much more into the innovation and technical development of our people. Perhaps because we are part of BMW Group. Or, let’s be honest, that’s why we are part of BMW Group.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Acceptance criteria. Ask how the jury is going to choose the winner. We were all surprised with the choice…&lt;/li&gt;
-  &lt;li&gt;Communication. People like to talk and they do talk a lot, a lot more than needed. Absolutely neither listening nor analyzing what others have just said. And they try to make a &lt;del&gt;useless&lt;/del&gt; point and then they try to prove their point. And you have to learn how to stop those useless discussions and wasting the time and instead keep the team’s focus on the challenge. That is the best you can gain from hackathons&lt;/li&gt;
-  &lt;li&gt;Time management. Oh how many participants I’ve seen in panic mode on the Day 2, especially closer to the pitch time. Finally they realize how much time they wasted on nothing. Hackathon is a great excercise that builds discipline&lt;/li&gt;
-  &lt;li&gt;Teamwork. Don’t do the same mistake when you want to sit alone doing &lt;strong&gt;your part&lt;/strong&gt;. You will end up with typical problem: your part works pretty well, however whole solution does not work at all.&lt;/li&gt;
-  &lt;li&gt;Energy and drive. Every team needs someone energetic and proactive. A team is loosing the willingness to win as soon as they encounter unexpected issues. Thus form the team in such a way that you have at least one &lt;strong&gt;energetic doer&lt;/strong&gt;. Someone who pushes forward and does not give up.&lt;/li&gt;
-  &lt;li&gt;Go to the first row if you want nice pictures afterwards. Seriously, those lazy photographers did not bother taking pictures of people further than 1-2 rows. Sit in the first row during all events and you become a star :)&lt;/li&gt;
+  &lt;li&gt;not all the brave guys who prommised to test your app will download it&lt;/li&gt;
+  &lt;li&gt;not all of those who downloaded it will give you a feedback.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;challenge&quot;&gt;Challenge&lt;/h2&gt;
+&lt;h2 id=&quot;2-start-searching-for-beta-testers-as-soon-as-possible&quot;&gt;2 Start searching for BETA testers as soon as possible.&lt;/h2&gt;
+&lt;p&gt;Start earlier to get more testers. Only when you start to look for the BETA testers in advance you can get many feedbacks from them in time.&lt;/p&gt;
 
-&lt;p&gt;The challenge was kept a secret till the very last moment before we got on the train.&lt;/p&gt;
+&lt;h2 id=&quot;3-attract-beta-testers&quot;&gt;3 Attract BETA testers.&lt;/h2&gt;
+&lt;p&gt;Use the curiosity of BETA testers - wake up their interest! Show them something! It could be screenshots of your app or a short movie on YouTube demonstrating attractive aspects of your app &lt;a href=&quot;https://www.youtube.com/watch?v=B-32EjIHyDA&quot;&gt;Here is my movie as an example&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;4-publish-your-beta-as-soon-as-possible&quot;&gt;4 Publish your BETA as soon as possible&lt;/h2&gt;
+&lt;p&gt;Publish your BETA once it is ready. Don’t make the testers wait too long - they can lose the interest. Don’t be afraid that you don’t have enough testers - you can add them whenever you get them.&lt;/p&gt;
+
+&lt;h2 id=&quot;5-create-a-survey-make-the-process-of-providing-a-feedback-as-easy-as-possible&quot;&gt;5 Create a survey! Make the process of providing a feedback as easy as possible.&lt;/h2&gt;
+&lt;p&gt;People are lazy in a nature. It takes a lot of effort for the BETA testers to sit and write down anything in a free form, on the other hand it is quite easy to fill in a survey. Create a survey! Include important questions and don’t make it  too long - no more than 20 questions. You as a developer want to get valuable and actioable feedback. Right? Then simply ask your testers:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Is the UI intuitive and simple to use?&lt;/li&gt;
+  &lt;li&gt;What can be improved?&lt;/li&gt;
+  &lt;li&gt;Would you pay $X for it?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There are free services which allow you to create a survey for free, just google for them. I used &lt;a href=&quot;http://fluidsurveys.com/&quot;&gt;FluidSurveys&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;6-dont-wait---ask&quot;&gt;6 Don’t wait - ask!&lt;/h2&gt;
+&lt;p&gt;Only 1 out of 10 BETA testers will provide you a feedback. Don’t hesitate to ask providing you with the feedback after some periode of time. Send them a link to your survey and ask to fill it out mentioning that it wouldn’t take much time but will help you a lot.&lt;/p&gt;
+
+&lt;p&gt;After you performed all these steps you can lean back and analyze the feedback you got. Take into account suggestions, fix bugs, improve UI and release your amazing app!&lt;/p&gt;</content><author><name>Sergey Zavoloka</name></author><category term="Misc" /><summary type="html">You have developed a perfect app (or service). Before releasing and starting a marketing campaign you want to gether an initial feedback from potential users and make final fixes and adjustments. How to make it efficiently?</summary></entry><entry><title type="html">Do not lie to your user</title><link href="http://localhost:4000/4enablers.github.io/misc/2012/08/05/do-not-lie.html" rel="alternate" type="text/html" title="Do not lie to your user" /><published>2012-08-05T12:45:00+02:00</published><updated>2012-08-05T12:45:00+02:00</updated><id>http://localhost:4000/4enablers.github.io/misc/2012/08/05/do-not-lie</id><content type="html" xml:base="http://localhost:4000/4enablers.github.io/misc/2012/08/05/do-not-lie.html">&lt;p&gt;Your app or service is ready to be released. Time to attract users - but how? What do you tell them about your masterpiece while temptation to praise it to the skies is high? Only positive aspects?&lt;/p&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;You are going to the concert that ends late at night. Develop the solution by utilizing Mobility-As-A-Service, 3rd party API and Blockchain to help the users return home in time and according to their preferences.&lt;/p&gt;
+  &lt;p&gt;Please don’t lie to me, unless you’re absolutely sure I’ll never find out the truth.&lt;/p&gt;
+
+  &lt;p&gt;&lt;em&gt;Ashleigh Brilliant&lt;/em&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;The solution is not a big deal. The 3rd party API are well specified, we’ve got the specs from 9292, NS train ad Parkmobile. This covers all the transport and logistics from trains and buses to cars and even parking lots. The main problem was a blockchain. What are you going to use it for??&lt;/p&gt;
+&lt;p&gt;About three weeks ago I published my first app for the Windows Phone 7 to the Marketplace. The app tries to erase a marked object on the photo in elegant way, so it is hard to notice. The app does its job pretty well in many cases. At the same time, it is impossible to cover all the possible cases and create the magic app that never fails, therefore there are a plenty of cases where the algorithm fails…&lt;/p&gt;
 
-&lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
+&lt;p&gt;I didn’t describe in which cases you won’t get a really satisfying results, but I should’ve done that. For someone the app works great and he/she rates app for 5 stars but for someone it didn’t work and he/she rates app for 1 star and writes something not very pleasant.&lt;/p&gt;
 
-&lt;p&gt;High-level architecture
-&lt;img src=&quot;/assets/hackatrain2018/solution.png&quot; alt=&quot;Solution Architecture&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Since the app offers to a user to do some fancy things which he is excited about and then delivers just a mess… it’s no wonder that the user is getting angry.&lt;/p&gt;
 
-&lt;p&gt;The user interface is written in python
-&lt;img src=&quot;/assets/hackatrain2018/solution2.png&quot; alt=&quot;Frontend&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;I learned for myself - if an app has some issues, it’s better to tell about it as soon as possible to not disappoint your user.&lt;/p&gt;</content><author><name>Sergey Zavoloka</name></author><category term="Misc" /><summary type="html">Your app or service is ready to be released. Time to attract users - but how? What do you tell them about your masterpiece while temptation to praise it to the skies is high? Only positive aspects?</summary></entry><entry><title type="html">Weird Javascript: Buzzy statement</title><link href="http://localhost:4000/4enablers.github.io/javascript/2012/02/10/buzzy-javascript.html" rel="alternate" type="text/html" title="Weird Javascript: Buzzy statement" /><published>2012-02-10T03:22:00+01:00</published><updated>2012-02-10T03:22:00+01:00</updated><id>http://localhost:4000/4enablers.github.io/javascript/2012/02/10/buzzy-javascript</id><content type="html" xml:base="http://localhost:4000/4enablers.github.io/javascript/2012/02/10/buzzy-javascript.html">&lt;h2 id=&quot;buzzy-statement&quot;&gt;Buzzy statement&lt;/h2&gt;
 
-&lt;p&gt;IBM Hyperledger Fabric model
-&lt;img src=&quot;/assets/hackatrain2018/blockchain.png&quot; alt=&quot;Blockchain&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Once I came across this weird statement written in Javascript:&lt;/p&gt;
 
-&lt;h2 id=&quot;day-1&quot;&gt;Day 1&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-Javascript&quot;&gt;++[[]][+[]]+[+[]]
+&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;We gathered in Amsterdam Central Station at 8:30 AM, had breakfast and met our teams. A few minutes to socialise and we were ready to get on the train.&lt;/p&gt;
+&lt;p&gt;Being sure that I am pretty good at Javascript, I was trying to figure out whether or not this weird statement is valid. If so, what is the result?&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/hackatrain2018/outtrain.jpg&quot; alt=&quot;Getting into train&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Let’s sort it out together. In order to decode the statement we should split it into the parts. At first glance, you would split it on four groups as following:&lt;/p&gt;
 
-&lt;p&gt;The train is full. Berlin, here we come!
-&lt;img src=&quot;/assets/hackatrain2018/start.jpg&quot; alt=&quot;Start&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span style=&quot;background-color: #3598ff; color:#fff&quot;&gt;++[[]][&lt;/span&gt; + &lt;span style=&quot;background-color: #3598ff; color:#fff&quot;&gt;[]]&lt;/span&gt; + &lt;span style=&quot;background-color: #3598ff; color:#fff&quot;&gt; [&lt;/span&gt; + &lt;span style=&quot;background-color: #3598ff; color:#fff&quot;&gt; []] &lt;/span&gt;&lt;/p&gt;
 
-&lt;p&gt;That was quite warm weather and it was incredibly hot inside the train. We had to change our sweaty T-shirts every now and then.&lt;/p&gt;
+&lt;p&gt;However, the correct break-down would be two groups as follows:&lt;/p&gt;
 
-&lt;p&gt;Finally, the team sits together and we begin brainstorming.
-&lt;img src=&quot;/assets/hackatrain2018/cards.jpg&quot; alt=&quot;Cards&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span style=&quot;background-color: #3598ff; color:#fff&quot;&gt;++[[]][+[]]&lt;/span&gt; + &lt;span style=&quot;background-color: #3598ff; color:#fff&quot;&gt;[+[]]&lt;/span&gt;&lt;/p&gt;
 
-&lt;p&gt;At that moment, the main challenge was to stay together and follow the discussion. A lot of people constantly passing nearby were distracting us
-&lt;img src=&quot;/assets/hackatrain2018/brainstorming.jpg&quot; alt=&quot;Brainstorming&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;The statement consists of two parts: leftmost and rightmost. Now, the easiest part to analyze is the rightmost. Let’s have a look closer. We are dealing with a one-element array declared in a literal way, check this out:&lt;/p&gt;
 
-&lt;p&gt;And the next distraction was that noise produced by all of us. And that fluffy unicorn
-&lt;img src=&quot;/assets/hackatrain2018/unicorn.jpg&quot; alt=&quot;Unicorn&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;[&lt;span style=&quot;background-color: #3598ff; color:#fff&quot;&gt;+[]&lt;/span&gt;] == [&lt;span style=&quot;background-color: #3598ff; color:#fff&quot;&gt;x&lt;/span&gt;] == new Array(x)&lt;/p&gt;
 
-&lt;p&gt;In a few more hours we were completely exhausted, and finally silence came to the stage.
-&lt;img src=&quot;/assets/hackatrain2018/silence.jpg&quot; alt=&quot;Silence&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;And how to explain this statement inside the array:&lt;/p&gt;
 
-&lt;p&gt;Ho-ho-ho. 100+ geeks in front of Berlin Central Station.
-&lt;img src=&quot;/assets/hackatrain2018/arrived.jpg&quot; alt=&quot;Arrived&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;+[]&lt;/p&gt;
 
-&lt;p&gt;On-site. Everybody is looking for a cozy place for the team.
-&lt;img src=&quot;/assets/hackatrain2018/venue.jpg&quot; alt=&quot;Venue&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;The main hint here is the operator +. A statement written in such a way is interpreted by JavaScript as a number, because + acts as a unary operator:&lt;/p&gt;
 
-&lt;p&gt;Time for dinner.
-&lt;img src=&quot;/assets/hackatrain2018/dinner.jpg&quot; alt=&quot;Dinner&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;+[] == Number([])&lt;/p&gt;
 
-&lt;p&gt;Let the coding fun begin!
-&lt;img src=&quot;/assets/hackatrain2018/begincoding.jpg&quot; alt=&quot;Coding&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Outputting this via alert() function get us 0, i.e. converting an empty array to a number returns 0. Here is how the function Number() works:&lt;/p&gt;
 
-&lt;p&gt;And the coding continues at night
-&lt;img src=&quot;/assets/hackatrain2018/codingnight.jpg&quot; alt=&quot;Coding&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Attempts to convert an array to Javascript primitive type by calling internal toPrimitive() function
+In turn, toPrimitive function triggers valueOf() function. If the result is primitive, return it
+Otherwise, calls toString() function. Return primitive (if any)
+Apply toNumber() to the result
+Simply, [].valueOf() returns the array itself. Then the call [].toString() is made, which returns an empty string which, in turn is converted to 0 by calling ToNumber() internal function. So that the rightmost part can be re-written as follows:&lt;/p&gt;
 
-&lt;p&gt;Best of late-night
-&lt;img src=&quot;/assets/hackatrain2018/codinglatenight.jpg&quot; alt=&quot;Coding&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;[&lt;span style=&quot;background-color: #3598ff; color:#fff&quot;&gt;+[]&lt;/span&gt;] == [&lt;span style=&quot;background-color: #3598ff; color:#fff&quot;&gt;0&lt;/span&gt;]&lt;/p&gt;
 
-&lt;p&gt;Very late at night
-&lt;img src=&quot;/assets/hackatrain2018/coding.jpg&quot; alt=&quot;Coding&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Now, the process is pretty similar to what we have already seen and we do know that the result of this single statement is also 0*. Let’s take a look at the leftmost part of the statement and pay attention to its rightmost part. The statement can be transformed like this:&lt;/p&gt;
 
-&lt;p&gt;It’s almost morning
-&lt;img src=&quot;/assets/hackatrain2018/codingverylatenight.jpg&quot; alt=&quot;Coding&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span style=&quot;background-color: #ff6a35; color:#fff&quot;&gt;++[[]] &lt;/span&gt; &lt;span style=&quot;background-color: #3598ff; color:#fff&quot;&gt;[+[]]&lt;/span&gt; + &lt;span style=&quot;background-color: #3598ff; color:#fff&quot;&gt;[+[]]&lt;/span&gt; == &lt;span style=&quot;background-color: #ff6a35; color:#fff&quot;&gt;++[[]] &lt;/span&gt; &lt;span style=&quot;background-color: #3598ff; color:#fff&quot;&gt;[0]&lt;/span&gt; + &lt;span style=&quot;background-color: #3598ff; color:#fff&quot;&gt;[0]&lt;/span&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;day-2&quot;&gt;Day 2&lt;/h2&gt;
+&lt;p&gt;Surprisingly, here we are dealing with an array, yet again. Bear in mind that an empty array is converted to empty string or to the 0 when conversion to number takes place. Leftmost part of the statement is really simple now:&lt;/p&gt;
 
-&lt;p&gt;The next day we started at 7:00 AM. Quick breakfast and using a car-sharing &lt;a href=&quot;https://www.drive-now.com/de/en&quot;&gt;DriveNow&lt;/a&gt; to get back to the venue
-&lt;img src=&quot;/assets/hackatrain2018/drivenow.jpg&quot; alt=&quot;DriveNow&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;++[&lt;span style=&quot;background-color: #3598ff; color:#fff&quot;&gt;[]&lt;/span&gt;][0] == ++[&lt;span style=&quot;background-color: #3598ff; color:#fff&quot;&gt;””&lt;/span&gt;][0]&lt;/p&gt;
 
-&lt;p&gt;Convertible helps to wake up
-&lt;img src=&quot;/assets/hackatrain2018/drivenowwakeup.jpg&quot; alt=&quot;Convertible&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;See? This is an array with an empty string where the indexing is applied, i.e. an element with 0 index is retrieved. Then the result is incremented by 1, which in turn causes its conversion to the number:&lt;/p&gt;
 
-&lt;p&gt;Creating the presentation
-&lt;img src=&quot;/assets/hackatrain2018/presentation.jpg&quot; alt=&quot;Drawings&quot; /&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-Javascript&quot;&gt;++[&quot;&quot;][0] == ++0 == 1
+&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Getting ready for the pitch
-&lt;img src=&quot;/assets/hackatrain2018/drawings.jpg&quot; alt=&quot;Drawings&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Huray, here is the final statement:&lt;/p&gt;
 
-&lt;p&gt;The pitch is ready and looks promising
-&lt;img src=&quot;/assets/hackatrain2018/pitch.jpg&quot; alt=&quot;Pitch&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;++[[]][+[]] + [+[]] == ++0 + [0] == 1 + 0 == 10&lt;/p&gt;
 
-&lt;h2 id=&quot;in-the-meantime&quot;&gt;In the meantime&lt;/h2&gt;
+&lt;p&gt;Huh?? Ok, what’s going on now? I am sure you did notice the * somewhere above. The rightmost part was evaluated to 0, even more - to “0”, which is a string. Hence we saw the string concatenation rather than the numerical sum.&lt;/p&gt;
 
-&lt;p&gt;We found ParkNow advertisement (ParkNow is our brand in Germany)
-&lt;img src=&quot;/assets/hackatrain2018/parknow.jpg&quot; alt=&quot;ParkNow&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;And as a bonus, can you explain the following results?&lt;/p&gt;
 
-&lt;p&gt;And this strange guy in front of The Berlin Wall
-&lt;img src=&quot;/assets/hackatrain2018/lol.jpg&quot; alt=&quot;Strange guy&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;And the bike-sharing services. Lime E-bike vs orange city bike
-&lt;img src=&quot;/assets/hackatrain2018/bikesharing.jpg&quot; alt=&quot;Bike sharing&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Oh, look at this! There is a Mercedes A-class from Car2Go
-&lt;img src=&quot;/assets/hackatrain2018/car2go.jpg&quot; alt=&quot;Bike sharing&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Or better this GLA-class? Certainly, we tried both :)
-&lt;img src=&quot;/assets/hackatrain2018/car2go2.jpg&quot; alt=&quot;Bike sharing&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;back-to-pitch&quot;&gt;Back to Pitch&lt;/h2&gt;
-
-&lt;p&gt;Let the fun begin! Zahy is on fire
-&lt;img src=&quot;/assets/hackatrain2018/pitchpresenting.jpg&quot; alt=&quot;Zahy team&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Lucas is invisible. There is his team is presenting
-&lt;img src=&quot;/assets/hackatrain2018/lucasteam.jpg&quot; alt=&quot;Lucas team&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;And here is my team presenting
-&lt;img src=&quot;/assets/hackatrain2018/haas.jpg&quot; alt=&quot;Haas team&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Done. Jury is deciding
-&lt;img src=&quot;/assets/hackatrain2018/jury.jpg&quot; alt=&quot;Jury&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Ah, and the sweaty winners. They worked hard
-&lt;img src=&quot;/assets/hackatrain2018/winners.jpg&quot; alt=&quot;Winners&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;It was a great event and a lot of fun. We’ve gained great experience and made new connections, especially with guys from IBM and ING.&lt;/p&gt;
-
-&lt;p&gt;Time to go home
-&lt;img src=&quot;/assets/hackatrain2018/home.jpg&quot; alt=&quot;Back home&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Tired but happy!
-&lt;img src=&quot;/assets/hackatrain2018/back.jpg&quot; alt=&quot;Back home&quot; /&gt;&lt;/p&gt;</content><author><name>Borys Generalov</name></author><category term="Hackathon" /><summary type="html">How about having a hackathon on a train? 6 hours on a train, without internet, with a speed over 180 km/h. Sounds crazy but rather cool, isn’t it? Consider a high-speed train heading to Berlin with 100+ participants spread over two train wagons. Here at Parkmobile, we like cool things and the spirit of innovation, needless to say, I’m in!</summary></entry></feed>
+&lt;ul&gt;
+  &lt;li&gt;++[[1],[2]][+[]] = 2&lt;/li&gt;
+  &lt;li&gt;[1,2]+[3] = [1,23]&lt;/li&gt;
+  &lt;li&gt;(1,1,1)+(1,1,1)+(1,1,1) = 3&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Borys Generalov</name></author><category term="JavaScript" /><summary type="html">Buzzy statement</summary></entry></feed>

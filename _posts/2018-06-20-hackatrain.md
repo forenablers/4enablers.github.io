@@ -1,5 +1,4 @@
 ---
-layout: posts
 categories: Hackathon
 title: "Hackatrain 2018"
 date: "2018-06-20T21:00:00Z"

@@ -1,5 +1,4 @@
 ---
-layout: posts
 categories: MachineLearning
 title: "Machine Learning and Parking Availability"
 date: "2018-09-05T10:45:00Z"
