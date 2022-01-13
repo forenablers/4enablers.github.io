@@ -135,6 +135,8 @@ GEM
       pathutil (~> 0.9)
       rouge (>= 1.7, < 4)
       safe_yaml (~> 1.0)
+    jekyll-archives (2.2.1)
+      jekyll (>= 3.6, < 5.0)
     jekyll-assets (2.2.8)
       extras (~> 0.1)
       fastimage (~> 2.0, >= 1.8)
@@ -278,9 +280,16 @@ GEM
       jekyll (>= 3.5, < 5.0)
       jekyll-feed (~> 0.9)
       jekyll-seo-tag (~> 2.1)
+    minimal-mistakes-jekyll (4.24.0)
+      jekyll (>= 3.7, < 5.0)
+      jekyll-feed (~> 0.1)
+      jekyll-gist (~> 1.5)
+      jekyll-include-cache (~> 0.1)
+      jekyll-paginate (~> 1.1)
+      jekyll-sitemap (~> 1.3)
     minitest (5.15.0)
     multipart-post (2.1.1)
-    nokogiri (1.13.0-x64-mingw32)
+    nokogiri (1.13.1-x64-mingw32)
       racc (~> 1.4)
     octokit (4.22.0)
       faraday (>= 0.9)
@@ -339,11 +348,14 @@ PLATFORMS
 
 DEPENDENCIES
   github-pages
+  jekyll-archives
   jekyll-feed (~> 0.9)
+  jekyll-include-cache
   jekyll-seo-tag (~> 2.6)
   jekyll-theme-primer (~> 0.6.0)
   jumbo-jekyll-theme (~> 1.4)
   minima (~> 2.5)
+  minimal-mistakes-jekyll (~> 4.24)
   tzinfo (~> 1.2)
   tzinfo-data
   wdm (~> 0.1.1)

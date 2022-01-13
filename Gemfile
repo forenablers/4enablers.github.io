@@ -36,3 +36,6 @@ gem "webrick", "~> 1.7"
 gem "jumbo-jekyll-theme", "~> 1.4"
 
 gem "jekyll-theme-primer", "~> 0.6.0"
+gem 'jekyll-include-cache'
+gem "minimal-mistakes-jekyll", "~> 4.24"
+gem "jekyll-archives"

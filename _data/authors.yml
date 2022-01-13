@@ -1,0 +1,23 @@
+Borys Generalov:
+  name        : "Borys Generalov"
+  bio         : "Sr. Consultant at Microsoft"
+  avatar      : "/assets/profile/bgener.png"
+  links:
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope-square"
+      url: "mailto:bgener@gmail.com"
+    - label: "Twitter"
+      icon: "fab fa-fw fa-twitter-square"
+      url: "https://twitter.com/bgeneralov"
+
+Sergey Zavoloka:
+  name        : "Sergey Zavoloka"
+  bio         : "Software Engineer at Amazon"
+  avatar      : "/assets/profile/zavolokas.png"
+  links:
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope-square"
+      url: "mailto:zavolokas@gmail.com"
+    - label: "Twitter"
+      icon: "fab fa-fw fa-twitter-square"
+      url: "https://twitter.com/zavolokas"
