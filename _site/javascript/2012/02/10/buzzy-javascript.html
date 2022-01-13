@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Weird Javascript: Buzzy statement | Blog for Enablers</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Weird Javascript: Buzzy statement" />
+<meta name="author" content="Borys Generalov" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Buzzy statement" />
+<meta property="og:description" content="Buzzy statement" />
+<link rel="canonical" href="http://localhost:4000/javascript/2012/02/10/buzzy-javascript.html" />
+<meta property="og:url" content="http://localhost:4000/javascript/2012/02/10/buzzy-javascript.html" />
+<meta property="og:site_name" content="Blog for Enablers" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2012-02-10T03:22:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Weird Javascript: Buzzy statement" />
+<script type="application/ld+json">
+{"headline":"Weird Javascript: Buzzy statement","dateModified":"2012-02-10T03:22:00+01:00","datePublished":"2012-02-10T03:22:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/javascript/2012/02/10/buzzy-javascript.html"},"author":{"@type":"Person","name":"Borys Generalov"},"url":"http://localhost:4000/javascript/2012/02/10/buzzy-javascript.html","@type":"BlogPosting","description":"Buzzy statement","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Blog for Enablers" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Blog for Enablers</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Weird Javascript: Buzzy statement</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2012-02-10T03:22:00+01:00" itemprop="datePublished">Feb 10, 2012
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Borys Generalov</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="buzzy-statement">Buzzy statement</h2>
+
+<p>Once I came across this weird statement written in Javascript:</p>
+
+<pre><code class="language-Javascript">++[[]][+[]]+[+[]]
+</code></pre>
+
+<p>Being sure that I am pretty good at Javascript, I was trying to figure out whether or not this weird statement is valid. If so, what is the result?</p>
+
+<p>Let’s sort it out together. In order to decode the statement we should split it into the parts. At first glance, you would split it on four groups as following:</p>
+
+<p><span style="background-color: #3598ff; color:#fff">++[[]][</span> + <span style="background-color: #3598ff; color:#fff">[]]</span> + <span style="background-color: #3598ff; color:#fff"> [</span> + <span style="background-color: #3598ff; color:#fff"> []] </span></p>
+
+<p>However, the correct break-down would be two groups as follows:</p>
+
+<p><span style="background-color: #3598ff; color:#fff">++[[]][+[]]</span> + <span style="background-color: #3598ff; color:#fff">[+[]]</span></p>
+
+<p>The statement consists of two parts: leftmost and rightmost. Now, the easiest part to analyze is the rightmost. Let’s have a look closer. We are dealing with a one-element array declared in a literal way, check this out:</p>
+
+<p>[<span style="background-color: #3598ff; color:#fff">+[]</span>] == [<span style="background-color: #3598ff; color:#fff">x</span>] == new Array(x)</p>
+
+<p>And how to explain this statement inside the array:</p>
+
+<p>+[]</p>
+
+<p>The main hint here is the operator +. A statement written in such a way is interpreted by JavaScript as a number, because + acts as a unary operator:</p>
+
+<p>+[] == Number([])</p>
+
+<p>Outputting this via alert() function get us 0, i.e. converting an empty array to a number returns 0. Here is how the function Number() works:</p>
+
+<p>Attempts to convert an array to Javascript primitive type by calling internal toPrimitive() function
+In turn, toPrimitive function triggers valueOf() function. If the result is primitive, return it
+Otherwise, calls toString() function. Return primitive (if any)
+Apply toNumber() to the result
+Simply, [].valueOf() returns the array itself. Then the call [].toString() is made, which returns an empty string which, in turn is converted to 0 by calling ToNumber() internal function. So that the rightmost part can be re-written as follows:</p>
+
+<p>[<span style="background-color: #3598ff; color:#fff">+[]</span>] == [<span style="background-color: #3598ff; color:#fff">0</span>]</p>
+
+<p>Now, the process is pretty similar to what we have already seen and we do know that the result of this single statement is also 0*. Let’s take a look at the leftmost part of the statement and pay attention to its rightmost part. The statement can be transformed like this:</p>
+
+<p><span style="background-color: #ff6a35; color:#fff">++[[]] </span> <span style="background-color: #3598ff; color:#fff">[+[]]</span> + <span style="background-color: #3598ff; color:#fff">[+[]]</span> == <span style="background-color: #ff6a35; color:#fff">++[[]] </span> <span style="background-color: #3598ff; color:#fff">[0]</span> + <span style="background-color: #3598ff; color:#fff">[0]</span></p>
+
+<p>Surprisingly, here we are dealing with an array, yet again. Bear in mind that an empty array is converted to empty string or to the 0 when conversion to number takes place. Leftmost part of the statement is really simple now:</p>
+
+<p>++[<span style="background-color: #3598ff; color:#fff">[]</span>][0] == ++[<span style="background-color: #3598ff; color:#fff">””</span>][0]</p>
+
+<p>See? This is an array with an empty string where the indexing is applied, i.e. an element with 0 index is retrieved. Then the result is incremented by 1, which in turn causes its conversion to the number:</p>
+
+<pre><code class="language-Javascript">++[""][0] == ++0 == 1
+</code></pre>
+
+<p>Huray, here is the final statement:</p>
+
+<p>++[[]][+[]] + [+[]] == ++0 + [0] == 1 + 0 == 10</p>
+
+<p>Huh?? Ok, what’s going on now? I am sure you did notice the * somewhere above. The rightmost part was evaluated to 0, even more - to “0”, which is a string. Hence we saw the string concatenation rather than the numerical sum.</p>
+
+<p>And as a bonus, can you explain the following results?</p>
+
+<ul>
+  <li>++[[1],[2]][+[]] = 2</li>
+  <li>[1,2]+[3] = [1,23]</li>
+  <li>(1,1,1)+(1,1,1)+(1,1,1) = 3</li>
+</ul>
+
+  </div><a class="u-url" href="/javascript/2012/02/10/buzzy-javascript.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Blog for Enablers</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Blog for Enablers</li><li><a class="u-email" href="mailto:bgener@gmail.com">bgener@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/bgener"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">bgener</span></a></li><li><a href="https://www.twitter.com/bgener"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">bgener</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

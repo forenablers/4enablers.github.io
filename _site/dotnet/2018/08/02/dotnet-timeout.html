@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Microservices: Handling timeouts | Blog for Enablers</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Microservices: Handling timeouts" />
+<meta name="author" content="Borys Generalov" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The timeout pattern is perhaps the most basic way to reveal performance issues and satisfy the SLA. Even though the request did not succeed, the client gets the response within a defined SLA time span and the request can be retried. It sounds easy to implement as well. Simply set the timeout in the service client, i.e. RestClient, HttpWebRequest, or HttpClient. That is where it gets a bit tricky." />
+<meta property="og:description" content="The timeout pattern is perhaps the most basic way to reveal performance issues and satisfy the SLA. Even though the request did not succeed, the client gets the response within a defined SLA time span and the request can be retried. It sounds easy to implement as well. Simply set the timeout in the service client, i.e. RestClient, HttpWebRequest, or HttpClient. That is where it gets a bit tricky." />
+<link rel="canonical" href="http://localhost:4000/dotnet/2018/08/02/dotnet-timeout.html" />
+<meta property="og:url" content="http://localhost:4000/dotnet/2018/08/02/dotnet-timeout.html" />
+<meta property="og:site_name" content="Blog for Enablers" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-08-02T01:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Microservices: Handling timeouts" />
+<script type="application/ld+json">
+{"headline":"Microservices: Handling timeouts","dateModified":"2018-08-02T01:00:00+02:00","datePublished":"2018-08-02T01:00:00+02:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/dotnet/2018/08/02/dotnet-timeout.html"},"author":{"@type":"Person","name":"Borys Generalov"},"url":"http://localhost:4000/dotnet/2018/08/02/dotnet-timeout.html","@type":"BlogPosting","description":"The timeout pattern is perhaps the most basic way to reveal performance issues and satisfy the SLA. Even though the request did not succeed, the client gets the response within a defined SLA time span and the request can be retried. It sounds easy to implement as well. Simply set the timeout in the service client, i.e. RestClient, HttpWebRequest, or HttpClient. That is where it gets a bit tricky.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Blog for Enablers" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Blog for Enablers</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Microservices: Handling timeouts</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-08-02T01:00:00+02:00" itemprop="datePublished">Aug 2, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Borys Generalov</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>The timeout pattern is perhaps the most basic way to reveal performance issues and satisfy the SLA. Even though the request did not succeed, the client gets the response within a defined SLA time span and the request can be retried. It sounds easy to implement as well. Simply set the timeout in the service client, i.e. RestClient, HttpWebRequest, or HttpClient. That is where it gets a bit tricky.</p>
+
+<p>Here is the excerpt from Kibana logs of the real-world production microservice. An attempt to create parking action has timed out and the caller received an error response with a 500 HTTP status code. Then the caller retried and received the error again, this time the response with 409 HTTP status code, saying that the item already exists.</p>
+
+<p><img src="./images/kibana.png" alt="Kibana logs" /></p>
+
+<p>The following diagram illustrates the high-level process:</p>
+
+<p><img src="./images/uml.overview.png" alt="UML overview" /></p>
+
+<p>And this is a piece of code in API Gateway causing the problem:</p>
+
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">httpClient</span><span class="p">.</span><span class="n">Timeout</span> <span class="p">=</span> <span class="n">TimeSpan</span><span class="p">.</span><span class="nf">FromMilliseconds</span><span class="p">(</span><span class="n">timeout</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">httpClient</span><span class="p">.</span><span class="nf">SendAsync</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Even though the request has timed out, the parking action is still being persisted. Look what happened. The API Gateway aborted the request to the Parking service once the timeout was exceeded, but it did not cancel it. At that moment the Parking service was waiting for the database operation to complete. You are totally right if you thought of what is known as Compensating Transaction pattern. And to make it right, we have to inform the Parking service that the operation was canceled and we should stop processing and roll back all the actions performed (if any). And here the CancellationToken comes into play.</p>
+
+<p>This is what you would change at the API Gateway:</p>
+
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">tokenSource</span> <span class="p">=</span> <span class="n">CancellationTokenSource</span><span class="p">.</span><span class="nf">CreateLinkedTokenSource</span><span class="p">(</span><span class="n">cancellationToken</span><span class="p">);</span>
+<span class="n">tokenSource</span><span class="p">.</span><span class="nf">CancelAfter</span><span class="p">(</span><span class="n">timeout</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">httpClient</span><span class="p">.</span><span class="nf">SendAsync</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">tokenSource</span><span class="p">.</span><span class="n">Token</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>And the changes on the Parking service. First, we modify the controller to accept the cancellation token:</p>
+
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">public</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">IHttpActionResult</span><span class="p">&gt;</span> <span class="nf">StartParking</span><span class="p">(</span><span class="n">StartParkingRequest</span> <span class="n">request</span><span class="p">,</span> <span class="n">CancellationToken</span> <span class="n">cancellationToken</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">cancellationToken</span><span class="p">.</span><span class="nf">ThrowIfCancellationRequested</span><span class="p">();</span>
+    <span class="kt">var</span> <span class="n">parking</span> <span class="p">=</span> <span class="n">parkingRequestConverter</span><span class="p">.</span><span class="nf">ToParkingEntity</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
+    <span class="kt">var</span> <span class="n">parkingId</span> <span class="p">=</span> <span class="k">await</span> <span class="n">parkingRepository</span><span class="p">.</span><span class="nf">Insert</span><span class="p">(</span><span class="n">parking</span><span class="p">,</span> <span class="n">cancellationToken</span><span class="p">);</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Finally, the repository is adjusted as follows:</p>
+
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="n">Insert</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;(</span><span class="n">IModel</span> <span class="n">model</span><span class="p">,</span> <span class="kt">object</span> <span class="n">param</span><span class="p">,</span> <span class="n">CancellationToken</span> <span class="n">cancellationToken</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">T</span> <span class="n">result</span><span class="p">;</span>
+    <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">connection</span> <span class="p">=</span> <span class="nf">CreateSqlConnection</span><span class="p">())</span>
+    <span class="p">{</span>
+        <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">transaction</span> <span class="p">=</span> <span class="n">connection</span><span class="p">.</span><span class="nf">BeginTransaction</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="c1">//NOTE: we can not use DapperExtensions as it does not support a cancellation</span>
+            <span class="kt">var</span> <span class="n">sql</span> <span class="p">=</span> <span class="n">_sqlGenerator</span><span class="p">.</span><span class="nf">GetInsertCommandText</span><span class="p">(</span><span class="n">model</span><span class="p">);</span>
+            <span class="kt">var</span> <span class="n">command</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">CommandDefinition</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">transaction</span><span class="p">,</span> <span class="n">cancellationToken</span><span class="p">);</span>
+            <span class="n">result</span> <span class="p">=</span> <span class="k">await</span> <span class="n">connection</span><span class="p">.</span><span class="n">ExecuteScalarAsync</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;(</span><span class="n">command</span><span class="p">);</span>
+            <span class="k">if</span><span class="p">(!</span><span class="n">cancellationToken</span><span class="p">.</span><span class="n">IsCancellationRequested</span><span class="p">)</span>
+                <span class="n">transaction</span><span class="p">.</span><span class="nf">Commit</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Now, whenever the timeout is exceeded, the request is canceled, propagating the cancellation from API Gateway to the Parking service, so that the service cancels the activity accordingly. This reduces the number of errors, which in turn simplifies troubleshooting and provides consistent results.</p>
+
+<p>To recap: we’ve created a linked token source with custom timeout and propagated its cancellation token all the way to the downstream service and database layer.</p>
+
+  </div><a class="u-url" href="/dotnet/2018/08/02/dotnet-timeout.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Blog for Enablers</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Blog for Enablers</li><li><a class="u-email" href="mailto:bgener@gmail.com">bgener@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/bgener"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">bgener</span></a></li><li><a href="https://www.twitter.com/bgener"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">bgener</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Machine Learning and Parking Availability | Blog for Enablers</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Machine Learning and Parking Availability" />
+<meta name="author" content="Sergey Zavoloka" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Do you have a lot of data that you were collecting many years and now you consider doing some magic by applying Machine Learning? What are you able to achieve with the data you have?" />
+<meta property="og:description" content="Do you have a lot of data that you were collecting many years and now you consider doing some magic by applying Machine Learning? What are you able to achieve with the data you have?" />
+<link rel="canonical" href="http://localhost:4000/machinelearning/2018/09/05/machine-learning.html" />
+<meta property="og:url" content="http://localhost:4000/machinelearning/2018/09/05/machine-learning.html" />
+<meta property="og:site_name" content="Blog for Enablers" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-09-05T12:45:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Machine Learning and Parking Availability" />
+<script type="application/ld+json">
+{"headline":"Machine Learning and Parking Availability","dateModified":"2018-09-05T12:45:00+02:00","datePublished":"2018-09-05T12:45:00+02:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/machinelearning/2018/09/05/machine-learning.html"},"author":{"@type":"Person","name":"Sergey Zavoloka"},"url":"http://localhost:4000/machinelearning/2018/09/05/machine-learning.html","@type":"BlogPosting","description":"Do you have a lot of data that you were collecting many years and now you consider doing some magic by applying Machine Learning? What are you able to achieve with the data you have?","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Blog for Enablers" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Blog for Enablers</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Machine Learning and Parking Availability</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-09-05T12:45:00+02:00" itemprop="datePublished">Sep 5, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Sergey Zavoloka</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Do you have a lot of data that you were collecting many years and now you consider doing some magic by applying Machine Learning? What are you able to achieve with the data you have?</p>
+
+<p>In this post I’ll summarize our experience of trying to apply Machine Learning during the <a href="/hackathon-availability/">hackathon</a>.</p>
+
+<p>In the beginning we will take a look at the problem. After that there will be a small refresher/introduction into Machine Learning and its methods. Then we choose an appropriate method that supposed to solve the problem. Once we know the method, we will figure out what data do we need and what data are actually available. In the end as a bonus, we will consider slightly different approach and will reason about it’s pros &amp; cons.</p>
+
+<h2 id="problem">Problem</h2>
+
+<p>During the hackathon we tackled a <strong>parking availability</strong> problem that was stated as follows:</p>
+
+<blockquote>
+  <p>As a customer I want to search for parking in a specific area and get insight if there are spaces available? Show our customers parking prediction per street/area using our transaction history.</p>
+</blockquote>
+
+<p>The first solution that popped up in our technology driven minds was Machine Learning.</p>
+
+<h2 id="machine-learning">Machine Learning</h2>
+<p>What do we know about Machine Learning?</p>
+<blockquote>
+  <p>Machine learning is like teenage sex: everyone talks about it, nobody really knows how to do it, everyone thinks everyone else is doing it, so everyone claims they are doing it..</p>
+
+  <p>(c) Someone smart and funny</p>
+</blockquote>
+
+<p>What we want essentially is that our program learns how to solve a problem <strong>itself</strong> by discovering hidden patterns in the training data set.</p>
+
+<p>There are following types of learning methods available to solve different types of problems:</p>
+<ul>
+  <li>Supervised learning for predictions and classifications</li>
+  <li>Unsupervised learning for clustering and associations</li>
+  <li>Reinforcement learning for learning from experiments</li>
+</ul>
+
+<p>What these methods do is train <em>a model</em> that can either predict, classify, associate etc. In other words <strong>the model is an outcome of a learning process</strong>.</p>
+
+<p>As we can see above, to be able to make predictions about parking availability we need to utilize supervised learning to train our model.</p>
+
+<h2 id="supervised-learning">Supervised learning</h2>
+<p>How does the supervised learning works? In supervise learning we perform following steps to train our model:</p>
+<ul>
+  <li>initialize a model with random parameters</li>
+  <li>ask model to make predictions based on an input data</li>
+  <li>evaluate the prediction based on <strong>known output</strong></li>
+  <li>adjusts model’s parameters to minimize the error</li>
+</ul>
+
+<p>The key point is that <strong>we must know the prediction(output) for each input</strong> in the training data set. This paired data of <em>inputs and results</em> is named <strong>labeled</strong> data.</p>
+
+<p>The classical example of labeled data for supervised learning is a data set of labeled images with dogs and cats. We know who is pictured on each image: a cat or a dog.</p>
+
+<p><img src="./images/casndogs.jpg" alt="Cats &amp; Dogs" /></p>
+
+<p>The knowledge of the output allows us to train the model in supervised manner.</p>
+
+<h2 id="parking-availability-training-data-set">Parking Availability Training Data Set</h2>
+
+<p>Now let’s try to answer the question - <strong>how our training data set should look like so that we could predict parking availability?</strong></p>
+
+<p><strong>The output data</strong> should be either <em>parking is available</em> or <em>unavailable</em>. It can have different forms of course - binary(yes, no), or probability of availability(87% is available), or something else.</p>
+
+<p><strong>The input data</strong> should have features that influence parking availability.</p>
+
+<p>Desired data set could look like this:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>input <br /> curLat, curLon, destLat, destLon, day, minute</th>
+      <th>label (output) <br /> availability</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">52.3485772, 5.0082082, 52.356612, 4.895434, 244, 772</code></td>
+      <td><span style="color:#0a0">true</span></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">52.3485241, 5.0082011, 52.356278, 4.995423, 345, 631</code></td>
+      <td><span style="color:#0a0">true</span></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">52.3485789, 5.0082022, 52.353972, 4.995412, 134, 1083</code></td>
+      <td><span style="color:#f00">false</span></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">52.3489271, 5.0082082, 52.356129, 4.993729, 245, 890</code></td>
+      <td><span style="color:#f00">false</span></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">52.3485772, 5.0082090, 52.356605, 4.995392, 64, 402</code></td>
+      <td><span style="color:#0a0">true</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Important part of the data set is the availability <strong>labels</strong>. The labels reflect the availability situation whether the parking was available(<span style="color:#0a0">true</span>) or unavailable(<span style="color:#f00">false</span>) at the given time in the given location.</p>
+
+<p>Do we have these labels in provided data set?</p>
+
+<h2 id="cashless-parking-providers-and-data">Cashless Parking Providers and data</h2>
+
+<p>What data do we have in reality? As the problem states - we need to give a prediction based on <strong>transaction history</strong>. These transaction history comes from a cashless parking provider(CPP) and basically are payments for parking in a particular zone at particular time.</p>
+
+<p>Clients of CPP use the provided services once they are parked and want to pay for the parking. Therefore CPP receives transactions only for successful parking - <em>client managed to park in a particular area, thus parking was available</em>.</p>
+
+<p>What data we don’t have is the data about <strong>unsuccessful parkings</strong> because we don’t know where the client wanted to park <strong>initially</strong>. It is possible that the client wanted to park in one place but it was completely full so he ended up parking in another place far away from the initial destination point. In other words - client dealt with <strong>unavailable parking</strong> but this data <strong>was not captured</strong>.</p>
+
+<blockquote>
+  <p>Disclosure: all the data is anonymized according to the <a href="https://eugdpr.org/">GDPR</a>.</p>
+</blockquote>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The conclusion is that the <strong>transactions cannot be used as labeled training data set</strong> to train a model to predict parking availability.</p>
+
+<p>Main outcome was that the CPP should start collecting feedback from the users with regard to the parking experience. Simple questions can be asked after user parked:</p>
+<ul>
+  <li>Have you parked where you initially wanted?</li>
+  <li>How long did it take to park?</li>
+  <li>Do you see more available parking spots nearby?</li>
+</ul>
+
+<p>This feedback will allow building labeled training data set that will not depend on city specifics.</p>
+
+<h2 id="bonus">Bonus</h2>
+<h3 id="availability--amount-of-free-spots">Availability = Amount of Free Spots?</h3>
+
+<p>Can we derive availability from the amount of free parking spots? Whenever we can say that there will be <code class="language-plaintext highlighter-rouge">X</code> parking spots free, we can say that parking in the area is available.</p>
+
+<p>In order to train our model to predict amount of free parking spots, our desired labeled training data set should look like:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>input <br /> curLat, curLon, destLat, destLon, day, minute</th>
+      <th>label (output) <br /> amount of free parking spots</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">52.3485772, 5.0082082, 52.356612, 4.895434, 244, 772</code></td>
+      <td><span style="color:#0a0">23</span></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">52.3485241, 5.0082011, 52.356278, 4.995423, 345, 631</code></td>
+      <td><span style="color:#0a0">68<span></span></span></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">52.3485789, 5.0082022, 52.353972, 4.995412, 134, 1083</code></td>
+      <td><span style="color:#f00">0</span></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">52.3489271, 5.0082082, 52.356129, 4.993729, 245, 890</code></td>
+      <td><span style="color:#f00">0</span></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">52.3485772, 5.0082090, 52.356605, 4.995392, 64, 402</code></td>
+      <td><span style="color:#0a0">45<span></span></span></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>In order to label the data we should know amount of free parking spots. The math here is pretty simple:</p>
+<ol>
+  <li>Estimate a \(Capacity\) of the parking area. As the capacity we can consider a historical maximum amount of simultaneous parking transactions at the area.</li>
+  <li>Amount of \(Occupied\) spots is amount of simultanious transactions for a given time and location.</li>
+  <li>
+\[Free = Capacity - Occupied\]
+  </li>
+</ol>
+
+<h3 id="accuracy-of-free-spots-prediction">Accuracy of Free spots prediction</h3>
+
+<p>The accuracy of such model will depend on several factors and will vary per city.</p>
+
+<p><strong>Do we have all transactions in a City?</strong> If we don’t we cannot estimate a capacity of a parking location and how many spots are occupied.</p>
+
+<p><strong>Does enforcement work good?</strong> In worse case (when there is no enforcement)drivers won’t pay for parking. This will lead to situation where we see that there are 5 free parking spots, however they are occupied without paying.</p>
+
+<p><strong>Transactions reflect exact parking duration?</strong> There are cases when driver buys 20 minutes to park but leaves after 10 minutes. In couple minutes this spot gets occupied by another car that also creates a transaction. That can influence our estimations of parking space capacity by making it bigger.</p>
+
+<p><strong>Are there special tariffs?</strong> In a case when residents don’t pay for the parking they will occupy a spot but it will not create a transaction. In residential area we will see many free spots that are occupied by residents in reality.</p>
+
+<pre><code class="language-mermaid">graph TD
+    start --&gt; K{Major provider?}
+    D{Enforced?} --&gt; |Yes| F{Buy time?}
+    D --&gt; |No| B
+    K --&gt; |No| B[Incomplete]
+    K --&gt; |Yes| D
+    F --&gt; |Yes| G[Inaccurate]
+    F --&gt; |No| H[Complete]
+</code></pre>
+
+<p>It worth mentioning that attempt to predict amount of free parking spots in a parking location in Amsterdam (where we didn’t have majority of all the transactions) resulted in weird numbers that exceeded amount of historical maximum of simultaneous parking actions.</p>
+
+  </div><a class="u-url" href="/machinelearning/2018/09/05/machine-learning.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Blog for Enablers</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Blog for Enablers</li><li><a class="u-email" href="mailto:bgener@gmail.com">bgener@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/bgener"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">bgener</span></a></li><li><a href="https://www.twitter.com/bgener"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">bgener</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

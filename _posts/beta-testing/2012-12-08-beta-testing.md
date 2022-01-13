@@ -1,4 +1,6 @@
 ---
+layout: post
+categories: Misc
 title: "6 points on taking maximum from BETA testing"
 date: "2012-12-08T13:22:00Z"
 author: "Sergey Zavoloka"
