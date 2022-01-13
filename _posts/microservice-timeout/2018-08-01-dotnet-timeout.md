@@ -10,7 +10,7 @@ author: "Borys Generalov"
 
 Here is the excerpt from Kibana logs of the real-world production microservice. An attempt to create parking action has timed out and the caller received an error response with a 500 HTTP status code. Then the caller retried and received the error again, this time the response with 409 HTTP status code, saying that the item already exists.
 
-![Kibana logs](./images/kibana.png)
+![Kibana logs]({{site.baseurl}}/images/kibana.png)
 
 The following diagram illustrates the high-level process:
 

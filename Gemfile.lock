@@ -283,6 +283,7 @@ PLATFORMS
 
 DEPENDENCIES
   github-pages
+  jekyll-feed (~> 0.9)
   jekyll-seo-tag (~> 2.6)
   jekyll-theme-hacker (~> 0.2.0)
   minima (~> 2.5)
