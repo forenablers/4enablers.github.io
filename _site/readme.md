@@ -23,18 +23,18 @@ bundle exec jekyll serve --incremental
 
 ## Install the theme
 
-Search for the [Jekyll theme on RubyGems](https://rubygems.org/search?utf8=%E2%9C%93&query=jekyll-theme)
+Search for the [Jekyll theme on RubyGems](https://rubygems.org/search?utf8=%E2%9C%93&query=jekyll-theme). This blog uses [minimal-mistakes-jekyll](https://mmistakes.github.io/minimal-mistakes/docs/navigation/).
 
 * Add the theme gem:
 
 ```bash
-bundle add jekyll-theme-hacker
+bundle add minimal-mistakes-jekyll
 ```
 
 * Update _config.yml file to use the new theme:
 
 ```bash
-theme: jekyll-theme-minimal
+theme: minimal-mistakes-jekyll
 ```
 
 * Build and run your site
