@@ -5,4 +5,7 @@
 layout: home
 entries_layout: grid
 classes: wide
+author_profile: true
 ---
+
+{% include figure image_path="/assets/layout/unsplash.jpg" alt="header image" %}
