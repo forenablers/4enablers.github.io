@@ -29,8 +29,10 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: bgener
 github_username:  bgener
 
+markdown: kramdown
+
 # Build settings
-theme: jekyll-theme-dinky
+theme: minima
 plugins:
   - jekyll-feed
   - jekyll-seo-tag

@@ -52,11 +52,11 @@
 
 <p>Here is the excerpt from Kibana logs of the real-world production microservice. An attempt to create parking action has timed out and the caller received an error response with a 500 HTTP status code. Then the caller retried and received the error again, this time the response with 409 HTTP status code, saying that the item already exists.</p>
 
-<p><img src="./images/kibana.png" alt="Kibana logs" /></p>
+<p><img src="/assets/microservice-timeout/kibana.png" alt="Kibana logs" /></p>
 
 <p>The following diagram illustrates the high-level process:</p>
 
-<p><img src="./images/uml.overview.png" alt="UML overview" /></p>
+<p><img src="/assets/microservice-timeout/uml.overview.png" alt="UML overview" /></p>
 
 <p>And this is a piece of code in API Gateway causing the problem:</p>
 
