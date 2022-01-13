@@ -5,7 +5,17 @@
 layout: home
 entries_layout: grid
 classes: wide
-author_profile: true
+
+# sidebar:
+#   - title: "Borys Generalov"
+#     image: /assets/profile/bgener.png
+#     image_alt: "bgener profile picture"
+#     text: "Sr. Consultant at Microsoft"
+#   - title: "Sergey Zavoloka"
+#     image: /assets/profile/zavolokas.png
+#     image_alt: "zavolokas profile picture"
+#     text: "Software Engineer at Amazon"
 ---
 
 {% include figure image_path="/assets/layout/unsplash.jpg" alt="header image" %}
+{: .full}
