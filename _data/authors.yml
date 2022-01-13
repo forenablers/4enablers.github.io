@@ -1,7 +1,7 @@
 Borys Generalov:
   name        : "Borys Generalov"
   bio         : "Sr. Consultant at Microsoft"
-  avatar      : "/assets/profile/bgener.png"
+  avatar      : "{{site.baseurl}}/assets/profile/bgener.png"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
@@ -13,7 +13,7 @@ Borys Generalov:
 Sergey Zavoloka:
   name        : "Sergey Zavoloka"
   bio         : "Software Engineer at Amazon"
-  avatar      : "/assets/profile/zavolokas.png"
+  avatar      : "{{site.baseurl}}/assets/profile/zavolokas.png"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"

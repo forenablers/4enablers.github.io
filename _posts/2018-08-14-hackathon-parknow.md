@@ -28,15 +28,15 @@ We returned to the drawing board. This time we focus on the most important thing
 
 - Heatmap with colors indicating the occupancy on the street level, e.g. Parkmobile US:
 
-![Parkmobile US](/assets/hackathon-availability/parkmobile.png)
+![Parkmobile US]({{site.baseurl}}/assets/hackathon-availability/parkmobile.png)
 
 - Indication of how busy is the area, e.g. Google Maps:
 
-![Google maps](/assets/hackathon-availability/googlemaps.png)
+![Google maps]({{site.baseurl}}/assets/hackathon-availability/googlemaps.png)
 
 - Exact number showing the available parking spots, e.g. ParkMe:
 
-![Parkme](/assets/hackathon-availability/parkme.png)
+![Parkme]({{site.baseurl}}/assets/hackathon-availability/parkme.png)
 
 We quickly figured out that these existing approaches are not solving the **availability** problem as we expected. They rather give you an insight on what's going on in realtime and show you the occupancy of certain street. We do not want to know the exact number nor the color of the street. Finally, we worked out the **what** :
 
@@ -63,13 +63,13 @@ The first step is to understand your target users and customers. We used Persona
 There are many things that will affect the accuracy of the results, here are the most annoying:
 
 * The parking lot seems to be vacant, but it is too narrow to park there. E.g. someone parked the car inappropriately:
-![Parking idiot](/assets/hackathon-availability/idiot.gif)
+![Parking idiot]({{site.baseurl}}/assets/hackathon-availability/idiot.gif)
 
 * The parking is on grass or field (usually concerts, P+R), so if there is a heavy rain you will need to walk through mud:
-![Parking rain](/assets/hackathon-availability/parkingrain.jpg)
+![Parking rain]({{site.baseurl}}/assets/hackathon-availability/parkingrain.jpg)
 
 * How can you detect the following illegal parking? You can not trust the real-time occupancy, which reports 4 vacant parking spots
-![Illegal parking](/assets/hackathon-availability/illegalparking.jpg)
+![Illegal parking]({{site.baseurl}}/assets/hackathon-availability/illegalparking.jpg)
 
 ### Deep Analysis
 
@@ -91,7 +91,7 @@ Now, if we start collecting the users' feedback, we will greatly improve the acc
 
 The solution consists of the two parts. First part is for the users who is going to park and want to see the situation before they drive there. The second part is targeting the users who can provide feedback upon arriving at parking place or leaving it.  We will discuss the solution in depth in the next blog post. Below is the screenshot from the working app at the end of hackathon:
 
-![Parking availability](/assets/hackathon-availability/solution.png)
+![Parking availability]({{site.baseurl}}/assets/hackathon-availability/solution.png)
 
 ### Summary
 

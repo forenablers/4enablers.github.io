@@ -48,7 +48,7 @@ The key point is that **we must know the prediction(output) for each input** in 
 
 The classical example of labeled data for supervised learning is a data set of labeled images with dogs and cats. We know who is pictured on each image: a cat or a dog.
 
-![Cats & Dogs](/assets/pn-hackathon-2018/casndogs.jpg)
+![Cats & Dogs]({{site.baseurl}}/assets/pn-hackathon-2018/casndogs.jpg)
 
 The knowledge of the output allows us to train the model in supervised manner. 
 
