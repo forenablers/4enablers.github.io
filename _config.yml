@@ -33,7 +33,9 @@ baseurl: /4enablers.github.io/
 
 # Build settings
 # theme: minima
-theme: minimal-mistakes-jekyll
+# theme: minimal-mistakes-jekyll
+remote_theme: "mmistakes/minimal-mistakes@4.24.0"
+
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
