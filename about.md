@@ -9,7 +9,7 @@ layout: single
 Sergey Zavoloka has been a software engineer for over 15 years. He works as Software Engineer at Amazon focusing on backend and API development.
 
 You can follow Sergey on Twitter:
-[Twitter](https://twitter.com/zavolokas){: .fab .fa-fw .fa-twitter-square}
+[Twitter](https://twitter.com/zavolokas_eng){: .fab .fa-fw .fa-twitter-square}
 
 ---
 
