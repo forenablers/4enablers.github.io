@@ -5,8 +5,6 @@ date: 2010-06-07T00:00:00Z
 author: Borys Generalov
 ---
 
-## Intro
-
 Today I want to share with you some experience implementing a jquery-based plugin. What is needed is a stacked bar horizontal chart in HTML or javascript, ideally built-in within some plotting framework like jqPlot or whatever, that is free and I can incorporate it into existing architecture to accomplish my requirements. And to my big surprise, I could not find anything really good and convenient to use. Having spent 8 hours digging into different charting frameworks, I came up with the big idea to implement it in my own way.
 
 So, we were implementing new web dashboards and we needed to display this type of chart:
