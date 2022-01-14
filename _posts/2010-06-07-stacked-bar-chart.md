@@ -225,6 +225,3 @@ function getChartId(rowid) {
 It did not take too much time, I've spent no more than two days. The chart is successfully integrated into multiple places in our web portal and works great, with no issues the last year. Here is a real-world example:
 
 ![StackedBar chart]({{site.baseurl}}/assets/stacked-bar-chart/chart-actual.png)
-
-
-
