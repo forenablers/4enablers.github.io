@@ -25,9 +25,9 @@ Here, we will take a look at the different ways to start contributing to open so
 * Documentation
 * Testing
 
-The first two are the most difficult to get started, whereas the last two are the easiest ones. Documentation might sound boring, but it's an entry point to the project. Contributing to docs is just like fixing the bugs when you move to a new project - it allows you to learn the basics and dive deeper. Moreover, you are learning about the project while using the existing documentation. This enables you to "feel the pain" and identify ambiguity, missing and/or outdated things, and in turn you will know what needs an improvement right away.
+The first two can be tough to start, whereas the last two are the easiest ones. Documentation might sound boring, but it's an entry point to the project. Contributing to docs is just like fixing the bugs when you move to a new project - it allows you to learn the basics and dive deeper. Moreover, you are learning about the project while using the existing documentation. This enables you to "feel the pain" and identify ambiguity, missing and/or outdated things, and in turn, you will know what needs an improvement right away.
 
-You don't need to know how to code or install/use the Git command line tool. Simply follow the steps below using your browser:
+You don't need to know how to code or install/use the Git command-line tool. Simply follow the steps below using your browser:
 
 * Navigate to GitHub and find the project of your interest
 * [Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) a repository
@@ -40,16 +40,17 @@ Voila, well done! Your changes will be reviewed and either accepted or more foll
 
 ## Best practices
 
-* A majority of projects will have their own code of conduct that highlights the community rules, code standards and quality gates. Big projects will have the core team members listed and common procedures (how to build, test, run etc.) explained. Be sure to check that.
+* A majority of projects will have their own code of conduct that highlights the community rules, code standards and quality gates. Big projects will have the core team members listed and common procedures (how to build, test, run, etc.) explained. Be sure to check that.
+![contributing]({{site.baseurl}}/assets/open-source/contributing.png)
 
-* Open-source teams encourage communication and often use the tools such as Slack and StackOverflow for questions and answers. Familiarize yourself with aforementioned tools and do not hesitate to ask questions. 
+* Open-source teams encourage communication and often use the tools such as Slack and StackOverflow for questions and answers. Familiarize yourself with the aforementioned tools and do not hesitate to ask questions.
 
 ## Final thoughts
 
-Open source is certainly a great way to make things for others and turn ideas into life. This is a real-life example of the tutorial I've created just recently: 
+This is a real-life example of the tutorial I've created just recently: 
 [Tutorial: Create your first WebXR application using babylon.js](https://docs.microsoft.com/en-us/windows/mixed-reality/develop/javascript/tutorials/babylonjs-webxr-helloworld/introduction-01)
 
-![mixed-reality-tutorial]({{site.baseurl}}/assets/open-source/mixed-reality-pr.png)
+![mixed-reality-pr]({{site.baseurl}}/assets/open-source/mixed-reality-pr.png)
 
 ![mixed-reality-tutorial]({{site.baseurl}}/assets/open-source/mixed-reality.png)
 
@@ -57,4 +58,7 @@ While contributing to the MixedReality team, I've learned tons of new things, in
 
 ## Next steps
 
+Open source is certainly a great way to make things for others and turn ideas into life. You do not need specific knowledge to make a contribution. Go ahead and make you contributions. Here are some resources to help you get started:
+
 - [Microsoft Docs contributor guide](https://docs.microsoft.com/en-us/contribute/)
+- [Awesome First PR Opportunities](https://github.com/MunGell/awesome-for-beginners)
