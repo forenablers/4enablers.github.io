@@ -1,8 +1,8 @@
 ---
 categories: Hackathon
-title: "Hackatrain 2018"
-date: "2018-06-20T21:00:00Z"
-author: "Borys Generalov"
+title: Hackatrain 2018
+date: 2018-06-20T21:00:00Z
+author: Borys Generalov
 ---
 
 How about having a hackathon on a train? 6 hours on a train, without internet, with a speed over 180 km/h. Sounds crazy but rather cool, isn’t it? Consider a high-speed train heading to Berlin with 100+ participants spread over two train wagons. Here at [Parkmobile](https://parkmobile.nl), we like cool things and the spirit of innovation, needless to say, I'm in!
