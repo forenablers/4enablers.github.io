@@ -5,11 +5,21 @@ date: 2019-04-17T00:00:00Z
 author: Borys Generalov
 ---
 
-The PlantUML offers a great way to speed up the creation of architectural diagrams. However, the default rendering might look overwhelming and noisy for non-technical people. Using familiar icons, helps them to understand the diagram without knowing the UML. Here I'd like to showcase how to use png icons rather than sprites.
+The PlantUML offers a great way to speed up the creation of architectural diagrams. However, the default rendering might look overwhelming and noisy, especially for non-technical people. Using familiar and friendly icons, helps them to understand the diagram without knowing the UML. Here I'd like to showcase how to use png icons rather than sprites.
 
 ## Getting started
 
-Navigate to [PlantText WebSite](planttext.com) and use the following snippet:
+Let's use the sample code below and see the result rendered by default:
+
+``` bash
+Client -> apim
+apim -right-> backend
+apim -right-> backend
+```
+
+![Default view]({{site.baseurl}}/assets/plantuml-azure-icons/default.png)
+
+Not too bad, but we can do better. Navigate to [PlantText WebSite](https://planttext.com) and use the following snippet:
 
 ``` bash
 skinparam monochrome true
@@ -76,3 +86,4 @@ service1 -> backend
 
 * [PlantUML guide](http://plantuml.com/guide)
 * [Azure-PlantUML with sprites](https://github.com/RicardoNiepel/Azure-PlantUML)
+* [PlantUML Azure Icons](https://github.com/bgener/plantuml-azure-icons)
