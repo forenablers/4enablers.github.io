@@ -34,7 +34,7 @@ You don't need to know how to code or install/use the Git command-line tool. Sim
 * [Clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) this forked repository 
 * [Create](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-and-deleting-branches-within-your-repository) a new branch, e.g. feature-fix-typo
 * Make the necessary changes and [Push](https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/making-changes-in-a-branch/pushing-changes-to-github) the changes to GitHub
-* [Create] a pull request from a fork to the upstream repository
+* [Create](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request) a pull request from a fork to the upstream repository
 
 Voila, well done! Your changes will be reviewed and either accepted or more follow-up changes requested. You are an open-source contributor and making the world a better place, for free.
 

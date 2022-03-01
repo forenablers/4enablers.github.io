@@ -41,11 +41,12 @@ plugins:
   - jekyll-seo-tag
   - jekyll-include-cache
   - jekyll-archives
+  - jekyll-plantuml
 
 minimal_mistakes_skin: "default"
 search: true
 
-paginate: 4
+paginate: 8
 # paginate_path: /page:num/
 
 # Analytics
