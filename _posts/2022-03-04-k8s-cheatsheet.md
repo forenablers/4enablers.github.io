@@ -88,9 +88,46 @@ View the secrets:
 kubectl get "secrets/<secret_name>" -n "<namespace_name>"
 ```
 
+### Helm charts
+
+To list all the Helm chart dependencies:
+
+```bash
+helm dependency list "<chart_name>"
+```
+
+To upgrade the release with all dependencies, run the command as follows:
+
+```bash
+helm upgrade "<chart_name>" -i "<release_name>" -n "<namespace_name>" --set tags.all=enabled
+```
+
+To upgrade the release without certain dependencies, for example exclude sub-charts tagged as frontend, run the command as follows:
+
+```bash
+helm upgrade "<chart_name>" -i "<release_name>" -n "<namespace_name>" --set tags.frontend=false
+
+```
+
+To list all installed charts:
+
+```bash
+helm ls -n "<namespace_name>"
+``` 
+
+### Redeploy pods
+
+To shut down and restart each container in your deployment one by one, run this command:
+
+```bash
+kubectl rollout restart deploy -n "<namespace_name>"
+```
+
 ## Next steps
 
 Consider this list a starting point for your Kubernetes cheatsheet. These commands are simple, and cover typical operations, hence are good to have for any developer working with Kubernetes.
 
 * Learn more about [Kubernetes](https://kubernetes.io/docs/home/)
-* Learn about [Helm](https://helm.sh/)
+* Learn about [Helm](https://helm.sh/) package manager for Kubernetes
+* [minikube](https://github.com/kubernetes/minikube) for local development
+* [k9s](https://k9scli.io/) command line interface for an overview of your cluster resources
