@@ -13,15 +13,36 @@ What makes it complicated is that you also need to learn all of the auxillary to
 
 ## Cheatsheet
 
-Despite all the complexity, there are common routines that every developer wants to accomplish within Kubernetes. 
-The Kubernetes command line tool `kubectl` is surprisingly approachable and relatively straightforward. I listed the most popular commands that will make your developer's life a little bit easier.
+Despite all the complexity, there are common routines that every developer wants to accomplish within Kubernetes. Similarly, there are common approaches and tooling, such as `kubectl` and `Helm`. These command line tools are surprisingly approachable and straightforward. Below I listed the most popular commands/tasks that will make your daily developer's duties a little bit easier.
+
+### Switch context
+
+A context is a configuration that you use to connect to a certain cluster. For example, you can connect to a `minikube` cluster running your machine (local dev environment) or connect to a continuos integration cluster running on a remote machine (test environment). 
+
+The following command can be used to view all the contexts:
+
+```bash
+kubectl config get-contexts
+```
+
+View current context:
+
+```bash
+kubectl config current-context
+```
+
+Switch to the desired context:
+
+```bash
+kubectl config use-context "arn:aws:eks:<aws-region>:<id>:cluster/test-eks"
+```
 
 ### List pods
 
 Use the following command to retrieve a list of pods in given namespace:
 
 ```bash
-kubectl get pods -n "my namespace"
+kubectl get pods -n "<namespace_name>"
 ```
 
 To retrieve a list of pods in all namespaces:
@@ -30,6 +51,46 @@ To retrieve a list of pods in all namespaces:
 kubectl get pods --all-namespaces
 ```
 
+### Get pod logs
+
+Get the logs for the last 15 minutes for a pod:
+
+```bash
+kubectl logs --since=15m "<pod_name>"
+```
+
+### Describe services
+
+Display the detailed information about the service in the given namespace:
+
+```bash
+kubectl describe services "<service_name>" -n "<namespace_name>"
+```
+
+Extract the IP address of the service:
+
+```powershell
+$ipAddress = (kubectl describe services "<service_name>" -n "<namespace_name>" | Select-String "IP" |)
+Write-Host $ipAddress
+```
+
+### Secrets
+
+Create a ssl certificate secret in the given namespace:
+
+```bash
+kubectl create secret tls "<secret_name>" -n "<namespace_name>" --key ./key.pem --cert ./certificate.crt
+```
+
+View the secrets:
+
+```bash
+kubectl get "secrets/<secret_name>" -n "<namespace_name>"
+```
 
 ## Next steps
 
+Consider this list a starting point for your Kubernetes cheatsheet. These commands are simple, and cover typical operations, hence are good to have for any developer working with Kubernetes.
+
+* Learn more about [Kubernetes](https://kubernetes.io/docs/home/)
+* Learn about [Helm](https://helm.sh/)
