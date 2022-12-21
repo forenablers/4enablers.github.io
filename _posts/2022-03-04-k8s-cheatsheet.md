@@ -42,7 +42,7 @@ kubectl config use-context "arn:aws:eks:<aws-region>:<id>:cluster/test-eks"
 Use the following command to retrieve a list of pods in given namespace:
 
 ```bash
-kubectl get pods -n "<namespace_name>"
+kubectl get pods -n "<namespace>"
 ```
 
 To retrieve a list of pods in all namespaces:
@@ -58,19 +58,34 @@ Get the logs for the last 15 minutes for a pod:
 ```bash
 kubectl logs --since=15m "<pod_name>"
 ```
+### COllecting metrics
+
+Note that the following command requires the Metrics API installed.
+
+Display resource usage (CPU/RAM) of pdos per container:
+
+```bash
+kubectl top pods -n "<namespace>" --containers
+```
+
+Get metrics for the node:
+
+```bash
+kubectl top node 
+```
 
 ### Describe services
 
 Display the detailed information about the service in the given namespace:
 
 ```bash
-kubectl describe services "<service_name>" -n "<namespace_name>"
+kubectl describe services "<service_name>" -n "<namespace>"
 ```
 
 Extract the IP address of the service:
 
 ```powershell
-$ipAddress = (kubectl describe services "<service_name>" -n "<namespace_name>" | Select-String "IP" |)
+$ipAddress = (kubectl describe services "<service_name>" -n "<namespace>" | Select-String "IP" |)
 Write-Host $ipAddress
 ```
 
@@ -79,13 +94,13 @@ Write-Host $ipAddress
 Create a ssl certificate secret in the given namespace:
 
 ```bash
-kubectl create secret tls "<secret_name>" -n "<namespace_name>" --key ./key.pem --cert ./certificate.crt
+kubectl create secret tls "<secret_name>" -n "<namespace>" --key ./key.pem --cert ./certificate.crt
 ```
 
 View the secrets:
 
 ```bash
-kubectl get "secrets/<secret_name>" -n "<namespace_name>"
+kubectl get "secrets/<secret_name>" -n "<namespace>"
 ```
 
 ### Helm charts
@@ -99,20 +114,26 @@ helm dependency list "<chart_name>"
 To upgrade the release with all dependencies, run the command as follows:
 
 ```bash
-helm upgrade "<chart_name>" -i "<release_name>" -n "<namespace_name>" --set tags.all=enabled
+helm upgrade "<chart_name>" -i "<release_name>" -n "<namespace>" --set tags.all=enabled
 ```
 
 To upgrade the release without certain dependencies, for example exclude sub-charts tagged as frontend, run the command as follows:
 
 ```bash
-helm upgrade "<chart_name>" -i "<release_name>" -n "<namespace_name>" --set tags.frontend=false
+helm upgrade "<chart_name>" -i "<release_name>" -n "<namespace>" --set tags.frontend=false
 
+```
+
+To get the values for a named release:
+
+```bash
+helm get values ringbax -n "<namespace>"
 ```
 
 To list all installed charts:
 
 ```bash
-helm ls -n "<namespace_name>"
+helm ls -n "<namespace>"
 ``` 
 
 ### Redeploy pods
@@ -120,7 +141,13 @@ helm ls -n "<namespace_name>"
 To shut down and restart each container in your deployment one by one, run this command:
 
 ```bash
-kubectl rollout restart deploy -n "<namespace_name>"
+kubectl rollout restart deploy -n "<namespace>"
+```
+
+To remove all the pods in a given namespace:
+
+```bash	
+kubectl delete pod --all -n "<namespace>"
 ```
 
 ## Next steps
