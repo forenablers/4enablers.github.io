@@ -58,7 +58,7 @@ Get the logs for the last 15 minutes for a pod:
 ```bash
 kubectl logs --since=15m "<pod_name>"
 ```
-### COllecting metrics
+### Get resource usage
 
 Note that the following command requires the Metrics API installed.
 
