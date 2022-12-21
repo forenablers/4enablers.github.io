@@ -55,6 +55,9 @@ analytics:
   google:
     tracking_id: UA-121878312-1
 
+feed:
+  url: https://forenablers.github.io/
+
 defaults:
   # _posts
   - scope:
