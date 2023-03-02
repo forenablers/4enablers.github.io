@@ -1,11 +1,13 @@
 ---
-categories: Misc PlantUML
+categories: Architecture, PlantUML
 title: Using PlantUML with custom images  
 date: 2019-04-17T00:00:00Z
 author: Borys Generalov
 ---
 
-The PlantUML offers a great way to speed up the creation of architectural diagrams. However, the default rendering might look overwhelming and noisy, especially for non-technical people. Using familiar and friendly icons, helps them to understand the diagram without knowing the UML. Here I'd like to showcase how to use png icons rather than sprites.
+PlantUML[https://plantuml.com/faq] is an excellent tool that allows you to make different types of diagrams with ease. It uses a simple and understandable syntax, making it an ideal choice for rapidly creating architectural diagrams that are subject to change, especially during the initial design stages.
+
+Architectural diagrams help people understand a system, behaviour and interactions. However, to be effective, the diagrams must be clear and easy to understand. The default rendering of PlantUML can often look overwhelming and noisy, especially for non-technical people. Using familiar and friendly icons, helps them to understand the diagram without knowing the UML. Here I'd like to showcase how to use png icons rather than sprites.
 
 ## Getting started
 

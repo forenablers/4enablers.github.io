@@ -1,5 +1,5 @@
 ---
-categories: Hackathon
+categories: Misc
 title: Hackatrain 2018
 date: 2018-06-20T21:00:00Z
 author: Borys Generalov

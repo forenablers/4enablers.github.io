@@ -1,5 +1,5 @@
 ---
-categories: Hackathon
+categories: Misc
 title: "Hackathon: Parking availability"
 date: "2018-08-14T20:00:00Z"
 author: "Borys Generalov"
