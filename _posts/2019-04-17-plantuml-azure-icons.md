@@ -5,13 +5,21 @@ date: 2019-04-17T00:00:00Z
 author: Borys Generalov
 ---
 
-PlantUML[https://plantuml.com/faq] is an excellent tool that allows you to make different types of diagrams with ease. It uses a simple and understandable syntax, making it an ideal choice for rapidly creating architectural diagrams that are subject to change, especially during the initial design stages.
+# Intro
 
-Architectural diagrams help people understand a system, behaviour and interactions. However, to be effective, the diagrams must be clear and easy to understand. The default rendering of PlantUML can often look overwhelming and noisy, especially for non-technical people. Using familiar and friendly icons, helps them to understand the diagram without knowing the UML. Here I'd like to showcase how to use png icons rather than sprites.
+Architectural diagrams help people understand a system, behaviour and interactions. However, to be effective, the diagrams must be clear and easy to understand. Utilizing icons that are both familiar and user-friendly can significantly enhance understanding, even for those unfamiliar with UML.
+
+In this post, we explore how integrating custom icons into PlantUML diagrams can significantly enhance their effectiveness in representing cloud architectures. The default styling of PlantUML, while functional, often lacks the visual clarity needed for complex cloud systems. By incorporating custom icons, we can create diagrams that are not only more visually appealing but also provide a clearer representation of services, for instance Azure, making them invaluable tools for cloud architects and developers.
+
+## PlantUML
+
+PlantUML[https://plantuml.com/faq] is an excellent tool that allows you to make different types of diagrams with ease. It stands out for its simple and intuitive syntax, which makes it especially useful in the early stages of architectural design where changes are frequent. 
+
+PlantUML's approach to 'diagrams as code' allows for quick updates and iterations, making it a highly efficient choice for dynamic projects. This method also ensures easy maintenance and updating of diagrams, as changes can be made quickly in the code without the need to manually adjust the visual elements.
 
 ## Getting started
 
-Let's use the sample code below and see the result rendered by default:
+Now that we've outlined PlantUML capabilities and its approach to creating diagrams, let's move to a hands-on example. We'll see how a diagram looks when rendered with the default settings. Navigate to the [PlantText WebSite](https://planttext.com) and enter the following code snippet:
 
 ``` bash
 Client -> apim
@@ -21,7 +29,7 @@ apim -right-> backend
 
 ![Default view]({{site.baseurl}}/assets/plantuml-azure-icons/default.png)
 
-Not too bad, but we can do better. Navigate to [PlantText WebSite](https://planttext.com) and use the following snippet:
+Next, we'll apply custom images to see how they compare with the default settings. By using this new snippet, we'll incorporate the familiar look and feel of Azure icons into our diagram, demonstrating a noticeable difference. Let's proceed with the following code snippet:
 
 ``` bash
 skinparam monochrome true
@@ -37,13 +45,17 @@ apim -right-> backend
 apim -right-> backend
 ```
 
-This will render the diagram as shown:
+This will render the diagram as shown below, illustrating the visual impact of the changes we've made:
 
 ![Getting Started]({{site.baseurl}}/assets/plantuml-azure-icons/getting-started.png)
 
 ## Advanced example
 
-Here is a more complex example where we define re-usable components
+In this more complex example, we define reusable components and the benefits of using custom icons become even more evident. With custom icons, such as those for Azure functions and API Management (APIM), the diagram becomes instantly recognizable. You can easily identify each element by its icon, reducing the need to rely on text labels for understanding.
+
+![Advanced example]({{site.baseurl}}/assets/plantuml-azure-icons/advanced-example.png)
+
+Below is the code corresponding to the diagram above:
 
 ``` bash
 skinparam monochrome true
@@ -82,9 +94,13 @@ orchestration -down-> service2
 service1 -> backend
 ```
 
-![Advanced example]({{site.baseurl}}/assets/plantuml-azure-icons/advanced-example.png)
+## Summary
 
-## Resources
+In this article, we explored how combining PlantUML with custom icons can significantly enhance architectural diagrams, especially for cloud systems. By using familiar Azure icons and embracing PlantUML's 'diagrams as code' approach, we saw how technical documentation can be transformed into visually appealing and easily comprehensible representations.
+
+We discovered that custom icons not only make diagrams look better but also improve their clarity. This makes them valuable for presentations, understanding complex architectures, and collaboration among team members, regardless of their level of experience with UML.
+
+As we move forward, you can further enhance your diagramming skills with the help of the following resources:
 
 * [PlantUML guide](http://plantuml.com/guide)
 * [Azure-PlantUML with sprites](https://github.com/RicardoNiepel/Azure-PlantUML)
