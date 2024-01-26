@@ -13,7 +13,7 @@ In this post, we explore how integrating custom icons into PlantUML diagrams can
 
 ## PlantUML
 
-PlantUML[https://plantuml.com/faq] is an excellent tool that allows you to make different types of diagrams with ease. It stands out for its simple and intuitive syntax, which makes it especially useful in the early stages of architectural design where changes are frequent. 
+[PlantUML](https://plantuml.com/faq) is an excellent tool that allows you to make different types of diagrams with ease. It stands out for its simple and intuitive syntax, which makes it especially useful in the early stages of architectural design where changes are frequent. 
 
 PlantUML's approach to 'diagrams as code' allows for quick updates and iterations, making it a highly efficient choice for dynamic projects. This method also ensures easy maintenance and updating of diagrams, as changes can be made quickly in the code without the need to manually adjust the visual elements.
 
